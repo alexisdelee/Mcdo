@@ -55,11 +55,11 @@
 
 ### Route pour la gestion des utilisateurs (_en cours_)
 
-|  Accès  | Méthode |        Route       |                Explication               |
-|:-------:|:-------:|:------------------:|:----------------------------------------:|
-| public  | GET     | /users/permissions | Obtenir les permission d'un utilisateur. |
-| private | POST    | /users             | Ajouter un utilisateur.                  |
-| private | DELETE  | /users/:id         | Modifier un utilisateur.                 |
+|  Accès  | Méthode |         Route        |                Explication               |
+|:-------:|:-------:|:--------------------:|:----------------------------------------:|
+| public  | GET     | /users/authorization | Obtenir les permissions d'un utilisateur. |
+| private | POST    | /users               | Ajouter un utilisateur.                  |
+| private | DELETE  | /users/:id           | Modifier un utilisateur.                 |
 
 ## Models
 

@@ -7,7 +7,8 @@ const Models = {
   Ingredient: require("../models/Ingredient"),
   Product: require("../models/Product"),
   Menu: require("../models/Menu"),
-  Group: require("../models/Group")
+  Group: require("../models/Group"),
+  User: require("../models/User")
 };
 
 const globalRouter = {};
@@ -22,14 +23,15 @@ Object.entries(mapping).forEach(route => {
   Object.entries(route[1]).forEach(method => {
     Object.entries(method[1]).forEach(path => {
       currentRouter[method[0]](path[0], (request, response) => {
-        // TODO : check for private access
+        if(path[1].access === "private") {
+          // TODO : check for private access
+        }
 
         let controller = require("../controllers/" + route[0]);
         controller[path[1].method](Models[route[0].charAt(0).toUpperCase() + route[0].slice(1, route[0].length - 1)], request.params, request.body, (code, err, items) => {
-            if(err) response.status(code).json(err);
-            else response.status(code).json(items);
-          }
-        );
+          if (err) response.status(code).json(err);
+          else response.status(code).json(items);
+        });
       });
     });
   });

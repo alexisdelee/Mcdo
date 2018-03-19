@@ -142,5 +142,13 @@
         "method": "deleteById"
       }
     }
+  },
+  "users": {
+    "get": {
+      "/authorization": {
+        "access": "public",
+        "method": "getAuthorization"
+      }
+    }
   }
 }

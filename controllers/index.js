@@ -2,5 +2,6 @@ module.exports = {
   IngredientController: require("./ingredients"),
   ProductController: require("./products"),
   MenuController: require("./menus"),
-  GroupController: require("./groups")
+  GroupController: require("./groups"),
+  UserController: require("./users")
 };
