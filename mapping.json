@@ -1,0 +1,146 @@
+{
+  "ingredients": {
+    "get": {
+      "/": {
+        "access": "public",
+        "method": "getAll"
+      },
+      "/:id": {
+        "access": "public",
+        "method": "getById"
+      }
+    },
+    "post": {
+      "/new": {
+        "access": "private",
+        "method": "add"
+      }
+    },
+    "put": {
+      "/:id": {
+        "access": "private",
+        "method": "updateById"
+      },
+      "/:id/:attribute": {
+        "access": "private",
+        "method": "updateFieldById"
+      }
+    },
+    "delete": {
+      "/:id": {
+        "access": "private",
+        "method": "deleteById"
+      }
+    }
+  },
+  "products": {
+    "get": {
+      "/": {
+        "access": "public",
+        "method": "getAll"
+      },
+      "/:id": {
+        "access": "public",
+        "method": "getById"
+      }
+    },
+    "post": {
+      "/new": {
+        "access": "private",
+        "method": "add"
+      }
+    },
+    "put": {
+      "/:id": {
+        "access": "private",
+        "method": "updateById"
+      },
+      "/:id/:attribute": {
+        "access": "private",
+        "method": "updateFieldById"
+      }
+    },
+    "delete": {
+      "/:id": {
+        "access": "private",
+        "method": "deleteById"
+      }
+    }
+  },
+  "menus": {
+    "get": {
+      "/": {
+        "access": "public",
+        "method": "getAll"
+      },
+      "/:id": {
+        "access": "public",
+        "method": "getById"
+      }
+    },
+    "post": {
+      "/new": {
+        "access": "private",
+        "method": "add"
+      }
+    },
+    "put": {
+      "/:id": {
+        "access": "private",
+        "method": "updateById"
+      },
+      "/:id/:attribute": {
+        "access": "private",
+        "method": "updateFieldById"
+      }
+    },
+    "delete": {
+      "/:id": {
+        "access": "private",
+        "method": "deleteById"
+      }
+    }
+  },
+  "groups": {
+    "get": {
+      "/products": {
+        "access": "public",
+        "method": "getProducts"
+      },
+      "/products/:id": {
+        "access": "public",
+        "method": "getProductsById"
+      },
+      "/": {
+        "access": "public",
+        "method": "getAll"
+      },
+      "/:id": {
+        "access": "public",
+        "method": "getById"
+      }
+    },
+    "post": {
+      "/new": {
+        "access": "private",
+        "method": "add"
+      }
+    },
+    "put": {
+      "/:id": {
+        "access": "private",
+        "method": "updateById"
+      },
+      "/:id/:attribute": {
+        "access": "private",
+        "method": "updateFieldById"
+      }
+    },
+    "delete": {
+      "/:id": {
+        "access": "private",
+        "method": "deleteById"
+      }
+    }
+  }
+}

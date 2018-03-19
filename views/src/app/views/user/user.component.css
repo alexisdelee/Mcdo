@@ -1,0 +1,26 @@
+#group {
+  position: absolute;
+  top: 64px;
+  bottom: 0;
+  width: 350px;
+  height: 100%;
+  border-right: 1px solid rgba(0, 0, 0, .12);
+}
+
+#group mat-header-row {
+  display: none !important;
+}
+
+#group mat-row {
+  padding-top: 4px;
+  cursor: pointer;
+}
+
+#group mat-row:hover {
+  background: rgba(0, 0, 0, .02);
+}
+
+#group mat-cell img {
+  width: 125px;
+  height: 125px;
+}

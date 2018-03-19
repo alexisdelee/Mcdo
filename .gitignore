@@ -1,0 +1,4 @@
+node_modules/
+views/node_modules/
+db/
+.idea
