@@ -17,8 +17,8 @@ Object.assign(UserController , GlobalController); // extends
  */
 
 UserController.getAuthorization = function(Model, params, body, callback) {
-  params.login = params.login || "";
-  params.password = params.password || "";
+  body.login = body.login || "";
+  body.password = body.password || "";
 
   Model.findOne({ login: body.login, password: crypto.createHash("sha256").update(body.password).digest("base64") }, (err, user) => {
     if(err) {
@@ -31,8 +31,18 @@ UserController.getAuthorization = function(Model, params, body, callback) {
       return callback(HTTP.ERR_CLIENT.BAD_REQUEST, { message: "There is no item with this id" });
     }
 
-    const token = jsonwebtoken.sign({ admin: true }, SECRET_TOKEN, { expiresIn: "1h" }); // expire after 1h
-    callback(HTTP.SUCCESS.OK, null, { items: user, token: token });
+    const token = jsonwebtoken.sign({ auth: true }, SECRET_TOKEN, { expiresIn: "1h" }); // expire after 1h
+    callback(HTTP.SUCCESS.OK, null, { token: token });
+  });
+};
+
+UserController.checkToken = function(Model, params, body, callback) {
+  body.token = body.token || "";
+
+  jsonwebtoken.verify(body.token, SECRET_TOKEN, err => {
+    if(err) return callback(HTTP.ERR_CLIENT.UNAUTHORIZED, { auth: false });
+
+    callback(HTTP.SUCCESS.OK, null, { auth: true });
   });
 };
 

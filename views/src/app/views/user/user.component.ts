@@ -1,7 +1,6 @@
 import {Component, OnInit} from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { HttpHeaders } from "@angular/common/http";
 import { MatTableDataSource } from "@angular/material";
+import { HttpClient } from "@angular/common/http";
 
 
 import { Product } from "../../models/Product";
@@ -11,7 +10,7 @@ import { Group } from "../../models/Group";
 @Component({
   selector: "app-user",
   templateUrl: "./user.component.html",
-  styleUrls: ["./user.component.css"]
+  styleUrls: [ "./user.component.css" ]
 })
 
 export class UserComponent implements OnInit {

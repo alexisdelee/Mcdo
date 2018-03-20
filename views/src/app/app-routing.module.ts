@@ -5,6 +5,8 @@ import { Location } from "@angular/common";
 
 import { HomeComponent } from "./views/home/home.component";
 import { UserComponent } from "./views/user/user.component";
+import { AdminComponent } from "./views/admin/admin.component";
+import { LoginComponent } from "./views/login/login.component";
 
 
 const routes: Routes = [
@@ -15,6 +17,14 @@ const routes: Routes = [
   {
     path: "user",
     component: UserComponent
+  },
+  {
+    path: "admin",
+    component: AdminComponent
+  },
+  {
+    path: "login",
+    component: LoginComponent
   },
   {
     path: "**",

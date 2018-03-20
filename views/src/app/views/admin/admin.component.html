@@ -1,0 +1,7 @@
+<app-login *ngIf="(!token);else manager" (tokenEvent)="receiveToken($event)"></app-login>
+
+<ng-template #manager>
+  Manage panel [{{ token }}]
+
+  <button (click)="disconnect()">Déconnecter</button>
+</ng-template>

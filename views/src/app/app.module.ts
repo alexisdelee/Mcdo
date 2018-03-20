@@ -6,12 +6,18 @@ import { FormsModule } from "@angular/forms";
 
 import { CapitalizePipe } from "./pipes/capitalize";
 import { KeysPipe } from "./pipes/keys";
+
 import { AppRoutingModule } from "./app-routing.module";
+
+import { TokenService } from "./services/token/token.service";
+
 import { AppComponent } from "./app.component";
 import { MaterialModule } from "./material.module";
 import { HeaderComponent } from "./views/header/header.component";
 import { HomeComponent } from "./views/home/home.component";
 import { UserComponent } from "./views/user/user.component";
+import { AdminComponent } from "./views/admin/admin.component";
+import { LoginComponent } from "./views/login/login.component";
 
 
 @NgModule({
@@ -21,7 +27,9 @@ import { UserComponent } from "./views/user/user.component";
     AppComponent,
     HeaderComponent,
     HomeComponent,
-    UserComponent
+    UserComponent,
+    AdminComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +38,7 @@ import { UserComponent } from "./views/user/user.component";
     BrowserAnimationsModule,
     MaterialModule
   ],
-  providers: [],
+  providers: [ TokenService ],
   bootstrap: [ AppComponent ]
 })
 

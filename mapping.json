@@ -144,10 +144,14 @@
     }
   },
   "users": {
-    "get": {
-      "/authorization": {
+    "post": {
+      "/token/authorization": {
         "access": "public",
         "method": "getAuthorization"
+      },
+      "/token/verify": {
+        "access": "public",
+        "method": "checkToken"
       }
     }
   }
