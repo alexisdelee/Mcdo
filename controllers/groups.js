@@ -1,4 +1,4 @@
-const HTTP = require("../http");
+const HttpException = require("../HttpException");
 const GlobalController = require("./global");
 const ProductController = require("../controllers/products");
 const Product = require("../models/Product");
@@ -15,11 +15,12 @@ Object.assign(GroupController, GlobalController); // extends
  * Example: GroupController.getById = function(Model, params, body, callback) { console.log("new controller"); };
  */
 
-GroupController.getProducts = function(Model, params, body, callback) {
+GroupController.getProducts = function(response, Model, params, body, callback) {
   let groups = {};
 
-  ProductController.getAll(Product, null, null, (code, err, products) => {
-    if(err) return callback(code, err);
+  ProductController.getAll(Product, null, null, products => {
+    // if(err) return callback(code, err);
+    if(err) return; // error's event already sent
 
     products.items.forEach(product => {
       product.groups.forEach(group => {
@@ -31,25 +32,26 @@ GroupController.getProducts = function(Model, params, body, callback) {
       });
     });
 
-    callback(HTTP.SUCCESS.OK, null, { items: groups });
+    callback({ items: groups });
   });
 };
 
-GroupController.getProductsById = function(Model, params, body, callback) {
+GroupController.getProductsById = function(response, Model, params, body, callback) {
   let group = [];
 
-  ProductController.getAll(Product, null, null, (code, err, products) => {
-    if(err) return callback(code, err);
+  ProductController.getAll(Product, null, null, products => {
+    // if(err) return callback(code, err);
+    if(err) return; // error's event already sent
 
     products.items.forEach(product => {
       product.groups.forEach(_group => {
-        if(_group._id == params.id) {
+        if(_group._id === params.id) {
           group.push({ group: _group, product: product });
         }
       });
     });
 
-    callback(HTTP.SUCCESS.OK, null, { items: group });
+    callback({ items: group });
   });
 };
 

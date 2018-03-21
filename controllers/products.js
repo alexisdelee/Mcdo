@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const HTTP = require("../http");
+const HttpException = require("../HttpException");
 const GlobalController = require("./global");
 
 const ProductController = function() { };
@@ -14,37 +14,41 @@ Object.assign(ProductController, GlobalController); // extends
  * Example: ProductController.getById = function(Model, params, body, callback) { console.log("new controller"); };
  */
 
-ProductController.getAll = function(Model, params, body, callback) {
+ProductController.getAll = function(response, Model, params, body, callback) {
   Model
     .find({})
     .populate("ingredients")
     .populate("groups")
     .exec((err, products) => {
       if(err) {
-        return callback(HTTP.ERR_SERVER.INTERNAL_ERROR, { message: err });
+        // return ServerException.emit("InternalError", err.toString());
+        return HttpException.emitter.ServerException.InternalError(response, err.toString());
       }
 
-      callback(HTTP.SUCCESS.OK, null, { items: products });
+      callback({ items: products });
     });
 };
 
-ProductController.getById = function(Model, params, body, callback) {
+ProductController.getById = function(response, Model, params, body, callback) {
   Model
     .findById(params.id)
     .populate("ingredients")
     .populate("groups")
     .exec((err, products) => {
-      if(err) {
-        if(err.name === "CastError") { // id invalide
-          return callback(HTTP.ERR_CLIENT.BAD_REQUEST, { message: err.message });
+      if (err) {
+        if (err.name === "CastError") { // id invalide
+          // return ClientException.emit("BadRequestError", err.message);
+          return HttpException.emitter.ClientException.BadRequestError(response, err.message);
         }
 
-        return callback(HTTP.ERR_SERVER.INTERNAL_ERROR, { message: err });
-      } else if(products === null) { // aucun match
-        return callback(HTTP.ERR_CLIENT.BAD_REQUEST, { message: "There is no item with this id" });
+        // return ServerException.emit("InternalError", err.toString());
+        return HttpException.emitter.ServerException.InternalError(response, err.toString());
+      } else if (products === null) { // aucun match
+        // return ClientException.emit("BadRequestError", "There is no item with this id");
+        return HttpException.emitter.ClientException.BadRequestError(response, "There is no item with this id");
       }
 
-      callback(HTTP.SUCCESS.OK, null, { items: products });
+      callback({items: products});
     });
 };
 

@@ -5,7 +5,7 @@ const jsonwebtoken = require("jsonwebtoken");
 
 const mapping = require("../mapping");
 const SECRET_TOKEN = require("../token");
-const HTTP = require("../http");
+const HttpException = require("../HttpException");
 
 const Models = {
   Ingredient: require("../models/Ingredient"),
@@ -16,6 +16,16 @@ const Models = {
 };
 
 const globalRouter = {};
+
+// EXCEPTIONS_EVENT
+HttpException.listener.ClientException.BadRequestError();
+HttpException.listener.ClientException.UnauthorizedError();
+HttpException.listener.ClientException.NotFoundError();
+
+HttpException.listener.ServerException.InternalError();
+HttpException.listener.ServerException.NotImplementedError();
+HttpException.listener.ServerException.ServiceUnavailableError();
+// END
 
 Object.entries(mapping).forEach(route => {
   let currentRouter = ( globalRouter[route[0]] = express.Router() );
@@ -34,12 +44,11 @@ Object.entries(mapping).forEach(route => {
           }
 
           let controller = require("../controllers/" + route[0]);
-          controller[path[1].method](Models[route[0].charAt(0).toUpperCase() + route[0].slice(1, route[0].length - 1)], request.params, request.body, (code, err, items) => {
-            if (err) response.status(code).json(err);
-            else response.status(code).json(items);
+          let a = controller[path[1].method](response, Models[route[0].charAt(0).toUpperCase() + route[0].slice(1, route[0].length - 1)], request.params, request.body, message => {
+            response.status(200).json(message);
           });
         } catch(e) {
-          response.status(HTTP.ERR_CLIENT.UNAUTHORIZED).json({});
+          HttpException.emitter.ClientException.UnauthorizedError(response);
         }
       });
     });
