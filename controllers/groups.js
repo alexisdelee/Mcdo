@@ -18,10 +18,7 @@ Object.assign(GroupController, GlobalController); // extends
 GroupController.getProducts = function(response, Model, params, body, callback) {
   let groups = {};
 
-  ProductController.getAll(Product, null, null, products => {
-    // if(err) return callback(code, err);
-    if(err) return; // error's event already sent
-
+  ProductController.getAll(response, Product, null, null, products => {
     products.items.forEach(product => {
       product.groups.forEach(group => {
         if(groups[group._id] === undefined) {
@@ -39,10 +36,7 @@ GroupController.getProducts = function(response, Model, params, body, callback) 
 GroupController.getProductsById = function(response, Model, params, body, callback) {
   let group = [];
 
-  ProductController.getAll(Product, null, null, products => {
-    // if(err) return callback(code, err);
-    if(err) return; // error's event already sent
-
+  ProductController.getAll(response, Product, null, null, products => {
     products.items.forEach(product => {
       product.groups.forEach(_group => {
         if(_group._id === params.id) {
@@ -50,6 +44,10 @@ GroupController.getProductsById = function(response, Model, params, body, callba
         }
       });
     });
+
+    if(group.length === 0) {
+      return HttpException.emitter.ClientException.BadRequestError(response, "There is no item with this id");
+    }
 
     callback({ items: group });
   });

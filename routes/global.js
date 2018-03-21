@@ -48,7 +48,12 @@ Object.entries(mapping).forEach(route => {
             response.status(200).json(message);
           });
         } catch(e) {
-          HttpException.emitter.ClientException.UnauthorizedError(response);
+          if(e.message === "jwt must be provided" || e.message === "invalid signature") {
+            return HttpException.emitter.ClientException.UnauthorizedError(response);
+          }
+
+          console.log(e.message);
+          return HttpException.emitter.ServerException.InternalError(response, "Unknown error");
         }
       });
     });

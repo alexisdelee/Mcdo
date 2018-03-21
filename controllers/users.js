@@ -31,7 +31,7 @@ UserController.getAuthorization = function(response, Model, params, body, callba
       return HttpException.emitter.ServerException.InternalError(response, err.toString());
     } else if(user === null) { // aucun match
       // return ClientException.emit("BadRequestError", "There is no item with this id");
-      return HttpException.emitter.ClientException.BadRequestError(response, "There is no item with this id");
+      return HttpException.emitter.ClientException.UnauthorizedError(response);
     }
 
     const token = jsonwebtoken.sign({ auth: true }, SECRET_TOKEN, { expiresIn: "1h" }); // expire after 1h
