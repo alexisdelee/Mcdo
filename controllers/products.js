@@ -21,7 +21,6 @@ ProductController.getAll = function(response, Model, params, body, callback) {
     .populate("groups")
     .exec((err, products) => {
       if(err) {
-        // return ServerException.emit("InternalError", err.toString());
         return HttpException.emitter.ServerException.InternalError(response, err.toString());
       }
 
@@ -37,14 +36,11 @@ ProductController.getById = function(response, Model, params, body, callback) {
     .exec((err, products) => {
       if (err) {
         if (err.name === "CastError") { // id invalide
-          // return ClientException.emit("BadRequestError", err.message);
           return HttpException.emitter.ClientException.BadRequestError(response, err.message);
         }
 
-        // return ServerException.emit("InternalError", err.toString());
         return HttpException.emitter.ServerException.InternalError(response, err.toString());
       } else if (products === null) { // aucun match
-        // return ClientException.emit("BadRequestError", "There is no item with this id");
         return HttpException.emitter.ClientException.BadRequestError(response, "There is no item with this id");
       }
 

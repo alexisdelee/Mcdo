@@ -45,7 +45,13 @@ Object.entries(mapping).forEach(route => {
 
           let controller = require("../controllers/" + route[0]);
           let a = controller[path[1].method](response, Models[route[0].charAt(0).toUpperCase() + route[0].slice(1, route[0].length - 1)], request.params, request.body, message => {
-            response.status(200).json(message);
+            if(path[1].access === "private") {
+              response.status(200).json(
+                Object.assign(message, { token: controller.users.generateToken() })
+              );
+            } else {
+              response.status(200).json(message);
+            }
           });
         } catch(e) {
           if(e.message === "jwt must be provided" || e.message === "invalid signature") {

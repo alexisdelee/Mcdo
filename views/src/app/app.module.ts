@@ -10,6 +10,7 @@ import { KeysPipe } from "./pipes/keys";
 import { AppRoutingModule } from "./app-routing.module";
 
 import { TokenService } from "./services/token/token.service";
+import { DialogService } from "./services/dialog/dialog.service";
 
 import { AppComponent } from "./app.component";
 import { MaterialModule } from "./material.module";
@@ -18,6 +19,7 @@ import { HomeComponent } from "./views/home/home.component";
 import { UserComponent } from "./views/user/user.component";
 import { AdminComponent } from "./views/admin/admin.component";
 import { LoginComponent } from "./views/login/login.component";
+import { DialogComponent } from "./views/dialog/dialog.component";
 
 
 @NgModule({
@@ -29,7 +31,8 @@ import { LoginComponent } from "./views/login/login.component";
     HomeComponent,
     UserComponent,
     AdminComponent,
-    LoginComponent
+    LoginComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,
@@ -38,8 +41,9 @@ import { LoginComponent } from "./views/login/login.component";
     BrowserAnimationsModule,
     MaterialModule
   ],
-  providers: [ TokenService ],
-  bootstrap: [ AppComponent ]
+  providers: [ TokenService, DialogService ],
+  bootstrap: [ AppComponent ],
+  entryComponents: [ DialogComponent ]
 })
 
 export class AppModule { }

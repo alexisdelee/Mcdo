@@ -6,7 +6,6 @@ GlobalController.getAll = function(response, Model, params, body, callback) {
   Model
     .find({}, (err, items) => {
       if(err) {
-        // return ServerException.emit("InternalError", err.toString());
         return HttpException.emitter.ServerException.InternalError(response, err.toString());
       }
 
@@ -19,14 +18,11 @@ GlobalController.getById = function(response, Model, params, body, callback) {
     .findById(params.id, (err, items) => {
       if(err) {
         if(err.name === "CastError") { // id invalide
-          // return ClientException.emit("BadRequestError", err.message);
           return HttpException.emitter.ClientException.BadRequestError(response, err.message);
         }
 
-        // return ServerException.emit("InternalError", err.toString());
         return HttpException.emitter.ServerException.InternalError(response, err.toString());
       } else if(items === null) { // aucun match
-        // return ClientException.emit("BadRequestError", "There is no item with this id");
         return HttpException.emitter.ClientException.BadRequestError(response, "There is no item with this id");
       }
 
@@ -40,14 +36,11 @@ GlobalController.add = function(response, Model, params, body, callback) {
     .save((err, items) => {
       if(err) {
         if(err.code === 11000) { // l'item existe déjà
-          // return ClientException.emit("BadRequestError", err.errmsg);
           return HttpException.emitter.ClientException.BadRequestError(response, err.errmsg);
         } else if(err.name === "ValidationError") { // l'utilisateur n'a pas envoyé d'item
-          // return ClientException.emit("BadRequestError", err.message);
           return HttpException.emitter.ClientException.BadRequestError(response, err.message);
         }
 
-        // return ServerException.emit("InternalError", err.toString());
         return HttpException.emitter.ServerException.InternalError(response, err.toString());
       }
 
@@ -60,14 +53,11 @@ GlobalController.updateById = function(response, Model, params, body, callback) 
     .findByIdAndUpdate(params.id, body, { new: true }, (err, items) => {
       if(err) {
         if (err.name === "CastError") { // id invalide
-          // return ClientException.emit("BadRequestError", err.message);
           return HttpException.emitter.ClientException.BadRequestError(response, err.message);
         }
 
-        // return ServerException.emit("InternalError", err.toString());
         return HttpException.emitter.ServerException.InternalError(response, err.toString());
       } else if(items === null) { // aucun match
-        // return ClientException.emit("BadRequestError", "There is no item with this id");
         return HttpException.emitter.ClientException.BadRequestError(response, "There is no item with this id");
       }
 
@@ -77,7 +67,6 @@ GlobalController.updateById = function(response, Model, params, body, callback) 
 
 GlobalController.updateFieldById = function(response, Model, params, body, callback) {
   if(Object.keys(Model.schema.paths).includes(params.attribute) === false) {
-    // return ClientException.emit("BadRequestError", "There is no item with this attribute");
     return HttpException.emitter.ClientException.BadRequestError(response, "There is no item with this attribute");
   }
 
@@ -85,14 +74,11 @@ GlobalController.updateFieldById = function(response, Model, params, body, callb
     .findByIdAndUpdate(params.id, { $set: { [params.attribute]: body[params.attribute] } }, { new: true }, (err, items) => {
       if(err) {
         if (err.name === "CastError") { // id invalide
-          // return ClientException.emit("BadRequestError", err.message);
           return HttpException.emitter.ClientException.BadRequestError(response, err.message);
         }
 
-        // return ServerException.emit("InternalError", err.toString());
         return HttpException.emitter.ServerException.InternalError(response, err.toString());
       } else if(items === null) { // aucun match
-        // return ClientException.emit("BadRequestError", "There is no item with this id");
         return HttpException.emitter.ClientException.BadRequestError(response, "There is no item with this id");
       }
 
@@ -103,7 +89,6 @@ GlobalController.updateFieldById = function(response, Model, params, body, callb
 GlobalController.deleteById = function(response, Model, params, body, callback) {
   Model.findByIdAndRemove(params.id, (err, items) => {
     if(err) {
-      // return ServerException.emit("InternalError", err.toString());
       return HttpException.emitter.ServerException.InternalError(response, err.toString());
     }
 

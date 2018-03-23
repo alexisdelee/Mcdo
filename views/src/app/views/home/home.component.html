@@ -1,2 +1,10 @@
-<a routerLink="/admin">Admin</a><br>
-<a routerLink="/user">User</a>
+<mat-card class="home-card">
+  <img mat-card-image src="assets/home-logo.jpg" alt="Logo mcdo">
+  <mat-card-content>
+    <p style="text-align: right;">« Venez comme vous êtes »</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button routerLink="/user">Commander</button>
+    <button mat-button routerLink="/admin">Se connecter</button>
+  </mat-card-actions>
+</mat-card>

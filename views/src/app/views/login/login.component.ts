@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 
 
 import { TokenService } from "../../services/token/token.service";
+import { DialogService } from "../../services/dialog/dialog.service";
 
 
 @Component({
@@ -20,9 +21,19 @@ export class LoginComponent implements OnInit {
 
   @Output() tokenEvent = new EventEmitter<string>();
 
-  constructor(private http: HttpClient, private router: Router, private tokenService: TokenService) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private tokenService: TokenService,
+    private dialogService: DialogService) { }
 
   ngOnInit() { }
+
+  enterPress(e: any) {
+    if(e.keyCode === 13) {
+      this.connect();
+    }
+  }
 
   connect(): void {
     this.tokenService.getToken(this.login, this.password,
@@ -33,10 +44,10 @@ export class LoginComponent implements OnInit {
         this.sendMessage();
       },
       (err: any) =>  {
-        if (err.status === 400) {
-          alert(err.error.message);
+        if (err.status === 401) {
+          this.dialogService.show(err.error.message);
         } else {
-          alert(JSON.stringify(err.error));
+          this.dialogService.show(JSON.stringify(err.error));
         }
       }
     );

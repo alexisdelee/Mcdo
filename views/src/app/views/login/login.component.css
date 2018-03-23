@@ -1,0 +1,18 @@
+.login-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 325px;
+  height: 470px;
+  margin: -235px -162.5px;
+}
+
+.login-input, .password-input {
+  width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+button {
+  float: right;
+}
