@@ -12,13 +12,13 @@ Object.assign(GroupController, GlobalController); // extends
 
 /**
  * Overload controller
- * Example: GroupController.getById = function(Model, params, body, callback) { console.log("new controller"); };
+ * Example: GroupController.getById = function(response, request, Model, callback) { console.log("new controller"); };
  */
 
-GroupController.getProducts = function(response, Model, params, body, callback) {
+GroupController.getProducts = function(response, request, Model, callback) {
   let groups = {};
 
-  ProductController.getAll(response, Product, null, null, products => {
+  ProductController.getAll(response, request, Product, products => {
     products.items.forEach(product => {
       product.groups.forEach(group => {
         if(groups[group._id] === undefined) {
@@ -33,13 +33,13 @@ GroupController.getProducts = function(response, Model, params, body, callback) 
   });
 };
 
-GroupController.getProductsById = function(response, Model, params, body, callback) {
+GroupController.getProductsById = function(response, request, Model, callback) {
   let group = [];
 
-  ProductController.getAll(response, Product, null, null, products => {
+  ProductController.getAll(response, request, Product, products => {
     products.items.forEach(product => {
       product.groups.forEach(_group => {
-        if(_group._id === params.id) {
+        if(_group._id === request.params.id) {
           group.push({ group: _group, product: product });
         }
       });

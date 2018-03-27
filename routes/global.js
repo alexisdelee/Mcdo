@@ -6,6 +6,7 @@ const jsonwebtoken = require("jsonwebtoken");
 const mapping = require("../mapping");
 const SECRET_TOKEN = require("../token");
 const HttpException = require("../HttpException");
+const options = require("../options");
 
 const Models = {
   Ingredient: require("../models/Ingredient"),
@@ -37,6 +38,8 @@ Object.entries(mapping).forEach(route => {
   Object.entries(route[1]).forEach(method => {
     Object.entries(method[1]).forEach(path => {
       currentRouter[method[0]](path[0], (request, response) => {
+        options.extend(request); // extend prototype of request object
+
         try {
           if(path[1].access === "private") {
             request.headers.authorization = request.headers.authorization || "";
@@ -44,7 +47,7 @@ Object.entries(mapping).forEach(route => {
           }
 
           let controller = require("../controllers/" + route[0]);
-          let a = controller[path[1].method](response, Models[route[0].charAt(0).toUpperCase() + route[0].slice(1, route[0].length - 1)], request.params, request.body, message => {
+          let a = controller[path[1].method](response, request, Models[route[0].charAt(0).toUpperCase() + route[0].slice(1, route[0].length - 1)], message => {
             if(path[1].access === "private") {
               response.status(200).json(
                 Object.assign(message, { token: controller.users.generateToken() })

@@ -13,14 +13,14 @@ Object.assign(UserController , GlobalController); // extends
 
 /**
  * Overload controller
- * Example: UserController .getById = function(Model, params, body, callback) { console.log("new controller"); };
+ * Example: UserController .getById = function(response, request, Model, callback) { console.log("new controller"); };
  */
 
 UserController.generateToken = function() {
   return jsonwebtoken.sign({ auth: true }, SECRET_TOKEN, { expiresIn: "1h" }); // expire after 1h
 };
 
-UserController.getAuthorization = function(response, Model, params, body, callback) {
+UserController.getAuthorization = function(response, { body }, Model, callback) {
   body.login = body.login || "";
   body.password = body.password || "";
 
@@ -39,7 +39,7 @@ UserController.getAuthorization = function(response, Model, params, body, callba
   });
 };
 
-UserController.checkToken = function(response, Model, params, body, callback) {
+UserController.checkToken = function(response, { body }, Model, callback) {
   body.token = body.token || "";
 
   jsonwebtoken.verify(body.token, SECRET_TOKEN, err => {

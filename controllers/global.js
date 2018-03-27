@@ -2,9 +2,14 @@ const HttpException = require("../HttpException");
 
 const GlobalController = function() { };
 
-GlobalController.getAll = function(response, Model, params, body, callback) {
+GlobalController.getAll = function(response, request, Model, callback) {
+  const _options = { limit: request.limit(), offset: request.offset() };
+
   Model
-    .find({}, (err, items) => {
+    .find({})
+    .skip(_options.offset)
+    .limit(_options.limit)
+    .exec((err, items) => {
       if(err) {
         return HttpException.emitter.ServerException.InternalError(response, err.toString());
       }
@@ -13,7 +18,7 @@ GlobalController.getAll = function(response, Model, params, body, callback) {
     });
 };
 
-GlobalController.getById = function(response, Model, params, body, callback) {
+GlobalController.getById = function(response, { params }, Model, callback) {
   Model
     .findById(params.id, (err, items) => {
       if(err) {
@@ -30,7 +35,7 @@ GlobalController.getById = function(response, Model, params, body, callback) {
     });
 };
 
-GlobalController.add = function(response, Model, params, body, callback) {
+GlobalController.add = function(response, { body }, Model, callback) {
   let model = new Model(body);
   model
     .save((err, items) => {
@@ -48,7 +53,7 @@ GlobalController.add = function(response, Model, params, body, callback) {
     });
 };
 
-GlobalController.updateById = function(response, Model, params, body, callback) {
+GlobalController.updateById = function(response, { params, body }, Model, callback) {
   Model
     .findByIdAndUpdate(params.id, body, { new: true }, (err, items) => {
       if(err) {
@@ -65,7 +70,7 @@ GlobalController.updateById = function(response, Model, params, body, callback) 
     });
 };
 
-GlobalController.updateFieldById = function(response, Model, params, body, callback) {
+GlobalController.updateFieldById = function(response, { params, body }, Model, callback) {
   if(Object.keys(Model.schema.paths).includes(params.attribute) === false) {
     return HttpException.emitter.ClientException.BadRequestError(response, "There is no item with this attribute");
   }
@@ -86,7 +91,7 @@ GlobalController.updateFieldById = function(response, Model, params, body, callb
     });
 };
 
-GlobalController.deleteById = function(response, Model, params, body, callback) {
+GlobalController.deleteById = function(response, { params }, Model, callback) {
   Model.findByIdAndRemove(params.id, (err, items) => {
     if(err) {
       return HttpException.emitter.ServerException.InternalError(response, err.toString());

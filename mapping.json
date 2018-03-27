@@ -39,6 +39,14 @@
         "access": "public",
         "method": "getAll"
       },
+      "/populars": {
+        "access": "public",
+        "method": "getAllPopulars"
+      },
+      "/populars/:id": {
+        "access": "public",
+        "method": "getPopularById"
+      },
       "/:id": {
         "access": "public",
         "method": "getById"
