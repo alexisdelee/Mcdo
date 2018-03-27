@@ -65,6 +65,15 @@
 
 Les queries ``limit`` et ``offset`` sont étendues sur les méthodes __getAll__ et __getProducts__.
 
+```shell
+/ingredients
+/products
+/products/populars
+/groups
+/groups/products
+/menus
+```
+
 ## Models
 
 Les models sont les suivants :  
@@ -72,7 +81,7 @@ Les models sont les suivants :
  - [Product](models/Product.js)  
  - [Group](models/Group.js)  
  - [Menu](models/Menu.js)  
- - User (models/User.js)
+ - [User](models/User.js)
 
 ## Environnement
 
