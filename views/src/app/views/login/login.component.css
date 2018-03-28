@@ -1,10 +1,12 @@
 .login-card {
   position: absolute;
-  top: 50%;
+  top: 300px;
   left: 50%;
   width: 325px;
   height: 470px;
-  margin: -235px -162.5px;
+  margin-left: -162.5px;
+  margin-right: -162.5px;
+  margin-bottom: 40px;
 }
 
 .login-input, .password-input {

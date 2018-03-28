@@ -1,7 +1,13 @@
 <app-login *ngIf="(!token);else manager" (tokenEvent)="receiveToken($event)"></app-login>
 
 <ng-template #manager>
-  Manage panel [{{ token }}]
+  <mat-card>
+    <mat-checkbox [(ngModel)]="visibilityToken">{{ visibilityToken ? "Cacher le token" : "Visualiser le token" }}</mat-checkbox>
 
-  <button (click)="disconnect()">Déconnecter</button>
+    <mat-form-field>
+      <input matInput [value]="visibilityToken ? token : '*'.repeat(token.length)">
+    </mat-form-field>
+
+    <button mat-button (click)="disconnect()">Déconnecter</button>
+  </mat-card>
 </ng-template>

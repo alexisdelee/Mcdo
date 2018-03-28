@@ -7,6 +7,7 @@ import { HomeComponent } from "./views/home/home.component";
 import { UserComponent } from "./views/user/user.component";
 import { AdminComponent } from "./views/admin/admin.component";
 import { LoginComponent } from "./views/login/login.component";
+import { ProductComponent } from "./views/product/product.component";
 
 
 const routes: Routes = [
@@ -25,6 +26,10 @@ const routes: Routes = [
   {
     path: "login",
     component: LoginComponent
+  },
+  {
+    path: "products/:id",
+    component: ProductComponent
   },
   {
     path: "**",

@@ -13,6 +13,7 @@ import { TokenService } from "../../services/token/token.service";
 export class AdminComponent implements OnInit {
 
   public token: string;
+  public visibilityToken: boolean = false;
 
   constructor(private tokenService: TokenService) {
     this.tokenService.checkToken(

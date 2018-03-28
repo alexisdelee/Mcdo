@@ -1,5 +1,6 @@
-<mat-toolbar class="header">
-  <mat-toolbar-row>
-    <a routerLink="/" class="subheader">Macdo</a>
-  </mat-toolbar-row>
-</mat-toolbar>
+<mat-card class="header">
+  <mat-card (click)="redirectToProduct($event)" class="populars" *ngFor="let product of popularProducts" [attr.data-id]="product._id">
+    <img mat-card-image [src]="product.thumbnail">
+    <mat-card-content>{{ product.name }}</mat-card-content>
+  </mat-card>
+</mat-card>

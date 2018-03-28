@@ -1,0 +1,18 @@
+mat-card {
+  position: absolute;
+  top: 300px;
+  left: 50%;
+  width: 200px;
+  margin-left: -100px;
+  margin-right: -100px;
+  margin-bottom: 40px;
+}
+
+mat-chip {
+  font-size: 10px;
+  font-weight: bold;
+}
+
+h5 {
+  margin-bottom: 15px;
+}

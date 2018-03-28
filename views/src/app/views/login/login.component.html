@@ -2,11 +2,11 @@
   <img mat-card-image src="assets/home-logo.jpg" alt="Logo mcdo">
   <mat-card-actions>
     <mat-form-field class="login-input">
-      <input matInput placeholder="Login" (keydown)="enterPress($event)" [(ngModel)]="login">
+      <input matInput placeholder="Identifiant" (keydown)="enterPress($event)" [(ngModel)]="login">
     </mat-form-field>
 
     <mat-form-field class="password-input">
-      <input matInput type="password" placeholder="Password" (keydown)="enterPress($event)" [(ngModel)]="password">
+      <input matInput type="password" placeholder="Mot de passe" (keydown)="enterPress($event)" [(ngModel)]="password">
     </mat-form-field>
 
     <button mat-button (click)="connect()">Se connecter</button>

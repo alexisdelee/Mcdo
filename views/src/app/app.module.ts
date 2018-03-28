@@ -20,6 +20,7 @@ import { UserComponent } from "./views/user/user.component";
 import { AdminComponent } from "./views/admin/admin.component";
 import { LoginComponent } from "./views/login/login.component";
 import { DialogComponent } from "./views/dialog/dialog.component";
+import { ProductComponent } from "./views/product/product.component";
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { DialogComponent } from "./views/dialog/dialog.component";
     UserComponent,
     AdminComponent,
     LoginComponent,
-    DialogComponent
+    DialogComponent,
+    ProductComponent
   ],
   imports: [
     BrowserModule,
