@@ -13,7 +13,8 @@ const Models = {
   Product: require("../models/Product"),
   Menu: require("../models/Menu"),
   Group: require("../models/Group"),
-  User: require("../models/User")
+  User: require("../models/User"),
+  Order: require("../models/Order")
 };
 
 const globalRouter = {};
@@ -42,8 +43,11 @@ Object.entries(mapping).forEach(route => {
 
         try {
           if(path[1].access === "private") {
-            request.headers.authorization = request.headers.authorization || "";
-            jsonwebtoken.verify(request.headers.authorization, SECRET_TOKEN);
+            // request.headers.authorization = request.headers.authorization || "";
+            // jsonwebtoken.verify(request.headers.authorization, SECRET_TOKEN);
+
+            request.headers["x-access-token"] = request.headers["x-access-token"] || "";
+            jsonwebtoken.verify(request.headers["x-access-token"], SECRET_TOKEN);
           }
 
           let controller = require("../controllers/" + route[0]);

@@ -2,11 +2,12 @@ const mongoose = require("mongoose");
 const express = require("express");
 const cors = require("cors");
 
+const webconfig = require("./webconfig");
 const RouterManager = require("./routes");
 
 const app = express();
 RouterManager.attach(app);
 
-mongoose.connect("mongodb://localhost/mcdo");
+mongoose.connect("mongodb://" + webconfig.database.host + ":" + webconfig.database.port + "/" + webconfig.database.name);
 
-app.listen(3000, () => console.log("Server started on 3000..."));
+app.listen(webconfig.server.port, () => console.log("Server started on " + webconfig.server.port + "..."));

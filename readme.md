@@ -87,47 +87,64 @@ Les models sont les suivants :
 
 ### MongoDB
 
-Port par défaut : 27017 (possibilité de le changer dans le fichier [index.js](index.js))  
-Localisation : [db/](db/)
+Port par défaut : 27017 (webconfig.json#8:5)
+Localisation : webconfig.json#10:5
+
+```shell
+# launch server
+npm run npx launch:database
+# or
+npm run npx database:launch
+```
 
 ```shell
 # export
-mongodump --out export/
+npm run npx database:export
   
 # import
-mongorestore export/
+npm run npx database:import
+```
+
+### API Node.js
+
+Port par défaut : 3000 (webconfig.json#4:5)
+
+```shell
+npm run npx launch:server
 ```
 
 ### Angular 5
 
 La vue sera faite en utilisant Angular 5 et Angular Material.  
-Port par défaut : 4200 (possibilité de le changer avec la commande ``ng serve --open --port 4401``)  
-Localisation : [views/](views/)
+Port par défaut : 4200 (webconfig.json#13:5)
+Localisation : webconfig.json#14:5
 
 ```shell
 # lancer le serveur interne
-ng serve --open
+npm run npx launch:view --open
 ```
 
-### API Node.js
+### Test unitaires
 
-Port par défaut : 3000 (possibilité de le changer dans le fichier [index.js](index.js))  
-Localisation : [index.js](index.js)
+Les tests unitaires seront exécutés avec Jest.
 
 ```shell
-node index.js
+npm run npx test
 ```
 
 ## Installation
 
 ```shell
-npm install
-mongod --dbpath db
-mongorestore export/
-node index.js
-  
-# pour la vue
+# developement environment
+npm install --only=dev
+# production environment
+npm install --only=prod
+
+npm run npx database:launch
+npm run npx database:import
+
+npm run npx launch:server
+
 npm install -g @angular/cli
-cd views && npm install
-ng serve --open
+npm run npx launch:view --open
 ```

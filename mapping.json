@@ -162,5 +162,13 @@
         "method": "checkToken"
       }
     }
+  },
+  "orders": {
+    "post": {
+      "/new": {
+        "access": "public",
+        "method": "add"
+      }
+    }
   }
 }

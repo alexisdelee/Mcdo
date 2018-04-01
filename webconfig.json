@@ -1,0 +1,16 @@
+{
+  "server": {
+    "host": "localhost",
+    "port": 3000
+  },
+  "database": {
+    "host": "localhost",
+    "port": 27017,
+    "name": "mcdo",
+    "path": "db/"
+  },
+  "view": {
+    "port": 4200,
+    "path": "views/"
+  }
+}
