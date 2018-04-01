@@ -87,7 +87,7 @@ Les models sont les suivants :
 
 ### MongoDB
 
-Port par défaut : 27017 (webconfig.json#8:5)
+Port par défaut : 27017 (webconfig.json#8:5)  
 Localisation : webconfig.json#10:5
 
 ```shell
@@ -124,7 +124,7 @@ Localisation : webconfig.json#14:5
 npm run npx launch:view --open
 ```
 
-### Test unitaires
+### Tests unitaires
 
 Les tests unitaires seront exécutés avec Jest.
 
