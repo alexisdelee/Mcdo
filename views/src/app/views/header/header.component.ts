@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Router } from "@angular/router";
 
 
+import { Globals } from "../Globals";
 import { DialogService } from "../../services/dialog/dialog.service";
 import { AppRoutingModule } from "../../app-routing.module";
 import { Product } from "../../models/Product";
@@ -12,7 +13,8 @@ import { Product } from "../../models/Product";
 @Component({
   selector: "app-header",
   templateUrl: "./header.component.html",
-  styleUrls: [ "./header.component.css" ]
+  styleUrls: [ "./header.component.css" ],
+  providers: [ Globals ]
 })
 
 export class HeaderComponent implements OnInit {
@@ -21,6 +23,7 @@ export class HeaderComponent implements OnInit {
   popularProducts: Product[];
 
   constructor(
+    private globals: Globals,
     private http: HttpClient,
     private router: Router,
     private location: Location,
@@ -35,9 +38,9 @@ export class HeaderComponent implements OnInit {
   getPopularProducts(): void {
     this
       .http
-      .get("http://localhost:3000/products/populars")
+      .get(this.globals.resolveAPIAddress("/products/populars"))
       .subscribe(
-        (products: any) => this.popularProducts = products.item,
+        (products: any) => this.popularProducts = products.items,
         (err: any) => this.dialog.show(JSON.stringify(err))
       )
   }

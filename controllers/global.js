@@ -1,4 +1,4 @@
-const HttpException = require("../HttpException");
+const HttpException = require("../internal/HttpException");
 
 const GlobalController = function() { };
 

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const HttpException = require("../HttpException");
+const HttpException = require("../internal/HttpException");
 const GlobalController = require("./global");
 const Ingredient = require("../models/Ingredient");
 const Group = require("../models/Group");

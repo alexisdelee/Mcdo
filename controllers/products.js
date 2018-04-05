@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const HttpException = require("../HttpException");
+const HttpException = require("../internal/HttpException");
 const GlobalController = require("./global");
 
 const ProductController = function() { };
@@ -66,7 +66,7 @@ ProductController.getAllPopulars = function(response, request, Model, callback) 
         return HttpException.emitter.ServerException.InternalError(response, err.toString());
       }
 
-      callback({ item: products });
+      callback({ items: products });
     });
 };
 

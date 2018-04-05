@@ -1,4 +1,4 @@
-const HttpException = require("../HttpException");
+const HttpException = require("../internal/HttpException");
 const GlobalController = require("./global");
 const ProductController = require("../controllers/products");
 const Product = require("../models/Product");

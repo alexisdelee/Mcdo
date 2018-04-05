@@ -3,13 +3,15 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { ActivatedRoute } from "@angular/router";
 
 
+import { Globals } from "../Globals";
 import { Product } from "../../models/Product";
 
 
 @Component({
   selector: "app-product",
   templateUrl: "./product.component.html",
-  styleUrls: [ "./product.component.css" ]
+  styleUrls: [ "./product.component.css" ],
+  providers: [ Globals ]
 })
 
 export class ProductComponent implements OnInit {
@@ -17,6 +19,7 @@ export class ProductComponent implements OnInit {
   product: Product;
 
   constructor(
+    private globals: Globals,
     private http: HttpClient,
     private url: ActivatedRoute) { }
 
@@ -29,7 +32,7 @@ export class ProductComponent implements OnInit {
     console.log(id);
     this
       .http
-      .get("http://localhost:3000/products/" + id)
+      .get(this.globals.resolveAPIAddress("/products/" + id))
       .subscribe(
         (product: any) => this.product = product.items,
         (err: any) => console.error(err)

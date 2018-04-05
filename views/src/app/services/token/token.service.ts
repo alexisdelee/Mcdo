@@ -3,15 +3,24 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Router } from "@angular/router";
 
 
+import { Globals } from "../../views/Globals";
+
+
 @Injectable()
 export class TokenService {
 
-  constructor(private http: HttpClient, private router: Router) { }
+  private globals: Globals;
+
+  constructor(
+    private http: HttpClient,
+    private router: Router) {
+    this.globals = new Globals();
+  }
 
   checkToken(token, success, err): void {
     this
       .http
-      .post("http://localhost:3000/users/token/verify", { token: token })
+      .post(this.globals.resolveAPIAddress("/users/token/verify"), { token: token })
       .subscribe(() => success(), () => err());
   }
 
@@ -23,7 +32,7 @@ export class TokenService {
   getToken(login, password, success, err): void {
     this
       .http
-      .post("http://localhost:3000/users/token/authorization", { login: login, password: password })
+      .post(this.globals.resolveAPIAddress("/users/token/authorization"), { login: login, password: password })
       .subscribe((data: any) => success(data), (data: any) => err(data));
   }
 

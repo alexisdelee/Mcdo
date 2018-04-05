@@ -1,9 +1,9 @@
 const crypto = require("crypto");
 const jsonwebtoken = require("jsonwebtoken");
 
-const SECRET_TOKEN = require("../token");
+const SECRET_TOKEN = require("../internal/token");
 const GlobalController = require("./global");
-const HttpException = require("../HttpException");
+const HttpException = require("../internal/HttpException");
 
 const UserController = function() { };
 

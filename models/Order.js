@@ -5,6 +5,10 @@ const OrderSchema = mongoose.Schema({
     type: Number,
     required: true
   },
+  status: {
+    type: String,
+    required: true
+  },
   products: [{
     type: mongoose.Schema.ObjectId,
     ref: "Product",

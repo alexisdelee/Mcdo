@@ -3,7 +3,7 @@
 - [API](#api)  
 - [Models](#models)  
 - [Environnement](#environnement)  
-- [Installation](#installation)
+- [Installation](#installation)  
 
 ## API
 
@@ -63,7 +63,7 @@
 | public  | POST    | /users/token/verify        | Vérifier la validité d'un token |
 
 
-Les queries ``limit`` et ``offset`` sont étendues sur les méthodes __getAll__ et __getProducts__.
+Les queries ``limit`` et ``offset`` sont étendues sur les méthodes __getAll__ et __getProducts__.  
 
 ```shell
 /ingredients
@@ -81,14 +81,14 @@ Les models sont les suivants :
  - [Product](models/Product.js)  
  - [Group](models/Group.js)  
  - [Menu](models/Menu.js)  
- - [User](models/User.js)
+ - [User](models/User.js)  
 
 ## Environnement
 
 ### MongoDB
 
 Port par défaut : 27017 (webconfig.json#8:5)  
-Localisation : webconfig.json#10:5
+Localisation : webconfig.json#10:5  
 
 ```shell
 # launch server
@@ -107,7 +107,7 @@ npm run npx database:import
 
 ### API Node.js
 
-Port par défaut : 3000 (webconfig.json#4:5)
+Port par défaut : 3000 (webconfig.json#4:5)  
 
 ```shell
 npm run npx launch:server
@@ -116,17 +116,17 @@ npm run npx launch:server
 ### Angular 5
 
 La vue sera faite en utilisant Angular 5 et Angular Material.  
-Port par défaut : 4200 (webconfig.json#13:5)
-Localisation : webconfig.json#14:5
+Port par défaut : 4200 (webconfig.json#13:5)  
+Localisation : webconfig.json#14:5  
 
 ```shell
 # lancer le serveur interne
-npm run npx launch:view --open
+npm run npx launch:client
 ```
 
 ### Tests unitaires
 
-Les tests unitaires seront exécutés avec Jest.
+Les tests unitaires seront exécutés avec Jest.  
 
 ```shell
 npm run npx test
@@ -145,6 +145,5 @@ npm run npx database:import
 
 npm run npx launch:server
 
-npm install -g @angular/cli
-npm run npx launch:view --open
+npm run npx launch:client
 ```

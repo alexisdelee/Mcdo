@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const HttpException = require("../HttpException");
+const HttpException = require("../internal/HttpException");
 const GlobalController = require("./global");
 const Product = require("../models/Product");
 const Menu = require("../models/Menu");
@@ -19,9 +19,65 @@ Object.assign(OrderController, GlobalController); // extends
  */
 
 OrderController.add = function(response, { body }, Model, callback) {
+  body.products = Array.isArray(body.products) ? body.products : [];
+  body.menus = Array.isArray(body.menus) ? body.menus : [];
+
   let price = 0;
 
-  body.products = Array.isArray(body.products) ? body.products : [];
+  Product
+    .find({ _id: { $in: body.products.map(product => mongoose.Types.ObjectId(product)) } })
+    .exec((err, products) => {
+      if (err) {
+        if (err.name === "CastError") { // id invalide
+          return HttpException.emitter.ClientException.BadRequestError(response, err.message);
+        }
+
+        return HttpException.emitter.ServerException.InternalError(response, err.toString());
+      }
+
+      // update price
+      products.forEach(product => price += product.price);
+
+      Menu
+        .find({ _id: { $in: body.menus.map(menu => mongoose.Types.ObjectId(menu)) } })
+        .exec((exec, menus) => {
+          if (err) {
+            if (err.name === "CastError") { // id invalide
+              return HttpException.emitter.ClientException.BadRequestError(response, err.message);
+            }
+
+            return HttpException.emitter.ServerException.InternalError(response, err.toString());
+          }
+
+          // update price
+          menus.forEach(menu => price += menu.price);
+
+          // save
+          let model = new Model({
+            price: price,
+            status: "waiting",
+            products: body.products,
+            menus: body.menus
+          });
+
+          model
+            .save((err, items) => {
+              if(err) {
+                if(err.code === 11000) { // l'item existe déjà
+                  return HttpException.emitter.ClientException.BadRequestError(response, err.errmsg);
+                } else if(err.name === "ValidationError") { // l'utilisateur n'a pas envoyé d'item
+                  return HttpException.emitter.ClientException.BadRequestError(response, err.message);
+                }
+
+                return HttpException.emitter.ServerException.InternalError(response, err.toString());
+              }
+
+              callback({ items: items });
+            });
+        });
+    });
+
+  /* body.products = Array.isArray(body.products) ? body.products : [];
   body.menus = Array.isArray(body.menus) ? body.menus : [];
 
   // Model
@@ -74,7 +130,7 @@ OrderController.add = function(response, { body }, Model, callback) {
               });
           });
         });
-    });
+    }); */
 };
 
 // END

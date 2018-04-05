@@ -3,6 +3,7 @@ import { MatTableDataSource } from "@angular/material";
 import { HttpClient } from "@angular/common/http";
 
 
+import { Globals } from "../Globals";
 import { Product } from "../../models/Product";
 import { Group } from "../../models/Group";
 
@@ -10,7 +11,8 @@ import { Group } from "../../models/Group";
 @Component({
   selector: "app-user",
   templateUrl: "./user.component.html",
-  styleUrls: [ "./user.component.css" ]
+  styleUrls: [ "./user.component.css" ],
+  providers: [ Globals ]
 })
 
 export class UserComponent implements OnInit {
@@ -18,7 +20,9 @@ export class UserComponent implements OnInit {
   public groups: [{ group: Group, product: Product }];
   public groupsTable;
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private globals: Globals,
+    private http: HttpClient) {
     this.getAllGroups();
   }
 
@@ -27,7 +31,7 @@ export class UserComponent implements OnInit {
   getAllGroups(): void {
     this
       .http
-      .get("http://localhost:3000/groups/products")
+      .get(this.globals.resolveAPIAddress("/groups/products"))
       .subscribe((data: any) => {
         console.log(data);
 

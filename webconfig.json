@@ -9,7 +9,7 @@
     "name": "mcdo",
     "path": "db/"
   },
-  "view": {
+  "client": {
     "port": 4200,
     "path": "views/"
   }
