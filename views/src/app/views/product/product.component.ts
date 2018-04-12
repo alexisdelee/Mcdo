@@ -1,44 +1,48 @@
-import { Component, OnInit } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Component, OnInit, Input } from "@angular/core";
+import { Router } from "@angular/router";
 import { ActivatedRoute } from "@angular/router";
 
 
-import { Globals } from "../Globals";
+import { OrderService } from "../../services/order/order.service";
 import { Product } from "../../models/Product";
 
 
 @Component({
   selector: "app-product",
   templateUrl: "./product.component.html",
-  styleUrls: [ "./product.component.css" ],
-  providers: [ Globals ]
+  styleUrls: [ "./product.component.css" ]
 })
 
 export class ProductComponent implements OnInit {
 
-  product: Product;
+  currentProduct: Product;
+  isOrdered: boolean;
+
+  @Input() product: Product;
 
   constructor(
-    private globals: Globals,
-    private http: HttpClient,
-    private url: ActivatedRoute) { }
-
-  ngOnInit() {
-    const id = this.url.snapshot.paramMap.get("id");
-    this.getProductById(id);
+    private router: Router,
+    private url: ActivatedRoute,
+    private order: OrderService) {
+    this.isOrdered = false;
   }
 
-  getProductById(id: string): void {
-    console.log(id);
-    this
-      .http
-      .get(this.globals.resolveAPIAddress("/products/" + id))
-      .subscribe(
-        (product: any) => this.product = product.items,
-        (err: any) => console.error(err)
-      );
+  ngOnInit() { }
 
-    setTimeout(() => console.log(this.product), 2000);
+  // debug
+  manageProduct() {
+    if (this.isOrdered) {
+      this.order.cancelProduct(this.product);
+    } else {
+      this.order.orderProduct(this.product);
+    }
+
+    this.isOrdered = !this.isOrdered;
+  }
+  // debug
+
+  redirectToGroup(e): void {
+    this.router.navigate([ "groups/" + e.value ]);
   }
 
 }

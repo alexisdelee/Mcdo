@@ -6,18 +6,25 @@
   </mat-card-header>
   <img mat-card-image [src]="product.thumbnail">
   <mat-card-content>
-    <h5>Catégorie(s) associée(s)</h5>
-
     <mat-card-subtitle>
       <mat-chip-list>
-        <mat-chip *ngFor="let group of product.groups" [title]="group.name">{{ group.name.length >= 10 ? group.name.substr(0, 10) + "..." : group.name }}</mat-chip>
+        <mat-select (change)="redirectToGroup($event)" [placeholder]="product.groups.length > 1 ? 'Catégories associées' : 'Catégorie associée'">
+          <mat-option *ngFor="let group of product.groups" [value]="group._id">{{ group.name }}</mat-option>
+        </mat-select>
       </mat-chip-list>
     </mat-card-subtitle>
 
     <mat-divider></mat-divider><br>
 
-    <p mat-line *ngFor="let ingredient of product.ingredients">
-      {{ ingredient.name }}
-    </p>
+    <div class="ingredient-list">
+      <p mat-line *ngFor="let ingredient of product.ingredients">{{ ingredient.name }}</p>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <button (click)="manageProduct()" *ngIf="isOrdered; else notOrdered" mat-button color="warn">Retirer</button>
+    <ng-template #notOrdered>
+      <button (click)="manageProduct()" mat-button color="primary">Commander</button>
+    </ng-template>
   </mat-card-content>
 </mat-card>

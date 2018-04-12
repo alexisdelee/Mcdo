@@ -1,11 +1,15 @@
 mat-card {
-  position: absolute;
-  top: 300px;
-  left: 50%;
+  float: left;
   width: 200px;
-  margin-left: -100px;
-  margin-right: -100px;
-  margin-bottom: 40px;
+  height: 100%;
+  margin: 20px 15px 10px;
+  padding-bottom: 10px;
+}
+
+mat-card-content .ingredient-list {
+  height: 150px;
+  overflow: auto;
+  margin-bottom: 20px;
 }
 
 mat-chip {
@@ -13,6 +17,6 @@ mat-chip {
   font-weight: bold;
 }
 
-h5 {
-  margin-bottom: 15px;
+button {
+  margin: 10px 0;
 }

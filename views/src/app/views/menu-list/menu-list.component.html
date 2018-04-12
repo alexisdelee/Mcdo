@@ -1,0 +1,9 @@
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let menu of menus">
+    <mat-expansion-panel-header>
+      <mat-panel-description>{{ menu.name }}</mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <app-product *ngFor="let product of menu.products" [product]="product"></app-product>
+  </mat-expansion-panel>
+</mat-accordion>

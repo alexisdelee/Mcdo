@@ -1,0 +1,9 @@
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let group of parseGroups()">
+    <mat-expansion-panel-header>
+      <mat-panel-description>{{ group[0].group.name }}</mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <app-product *ngFor="let _group of group" [product]="_group.product"></app-product>
+  </mat-expansion-panel>
+</mat-accordion>

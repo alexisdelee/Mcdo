@@ -17,10 +17,14 @@ import { Product } from "../../models/Product";
   providers: [ Globals ]
 })
 
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit  {
 
   appRouting: AppRoutingModule;
   popularProducts: Product[];
+
+  // debug
+  product: string;
+  // debug
 
   constructor(
     private globals: Globals,
@@ -46,7 +50,7 @@ export class HeaderComponent implements OnInit {
   }
 
   redirectToProduct(e): void {
-    this.router.navigate(["products/" + e.target.closest("mat-card").dataset.id]);
+    this.router.navigate([ "products/" + e.target.closest("mat-card").dataset.id ]);
   }
 
 }
