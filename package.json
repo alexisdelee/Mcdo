@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "npx": "node node_modules/npx/index.js run"
+    "tools": "node node_modules/npx/index.js run"
   },
   "keywords": [],
   "author": "",

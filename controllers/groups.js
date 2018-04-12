@@ -39,7 +39,7 @@ GroupController.getProductsById = function(response, request, Model, callback) {
   ProductController.getAll(response, request, Product, products => {
     products.items.forEach(product => {
       product.groups.forEach(_group => {
-        if(_group._id === request.params.id) {
+        if(_group._id.toString() === request.params.id) {
           group.push({ group: _group, product: product });
         }
       });

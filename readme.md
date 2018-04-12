@@ -92,17 +92,17 @@ Localisation : webconfig.json#10:5
 
 ```shell
 # launch server
-npm run npx launch:database
+npm run tools launch:database
 # or
-npm run npx database:launch
+npm run tools database:launch
 ```
 
 ```shell
 # export
-npm run npx database:export
+npm run tools database:export
   
 # import
-npm run npx database:import
+npm run tools database:import
 ```
 
 ### API Node.js
@@ -110,7 +110,7 @@ npm run npx database:import
 Port par défaut : 3000 (webconfig.json#4:5)  
 
 ```shell
-npm run npx launch:server
+npm run tools launch:server
 ```
 
 ### Angular 5
@@ -121,7 +121,7 @@ Localisation : webconfig.json#14:5
 
 ```shell
 # lancer le serveur interne
-npm run npx launch:client
+npm run tools launch:client
 ```
 
 ### Tests unitaires
@@ -129,7 +129,7 @@ npm run npx launch:client
 Les tests unitaires seront exécutés avec Jest.  
 
 ```shell
-npm run npx test
+npm run tools test
 ```
 
 ## Installation
@@ -140,10 +140,10 @@ npm install --only=dev
 # production environment
 npm install --only=prod
 
-npm run npx database:launch
-npm run npx database:import
+npm run tools database:launch
+npm run tools database:import
 
-npm run npx launch:server
+npm run tools launch:server
 
-npm run npx launch:client
+npm run tools launch:client
 ```

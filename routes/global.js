@@ -13,7 +13,9 @@ const Models = require("../models/index");
 const globalRouter = {};
 
 // EXCEPTIONS_EVENT
+
 init.signal();
+
 // END
 
 const iterator = init.route(mapping);
