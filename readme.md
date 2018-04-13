@@ -107,7 +107,7 @@ npm run tools database:import
 
 ### API Node.js
 
-Port par défaut : 3000 (webconfig.json#4:5)  
+Port par défaut : 3000 (webconfig.json#4:5 / views/src/app/views/Globals.ts#10:5)  
 
 ```shell
 npm run tools launch:server

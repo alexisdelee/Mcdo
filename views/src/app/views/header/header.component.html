@@ -4,3 +4,14 @@
     <mat-card-content>{{ product.name }}</mat-card-content>
   </mat-card>
 </mat-card>
+
+<mat-card class="header-breadcrumbs">
+  <ul class="breadcrumbs" *ngIf="navigation.length">
+    <li *ngFor="let nav of navigation">
+      <a [routerLink]="'/' + nav.path">{{ nav.data._name }}</a>
+    </li>
+    <li>
+      <a class="current">{{ currentComponentName }}</a>
+    </li>
+  </ul>
+</mat-card>

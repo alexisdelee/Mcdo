@@ -14,3 +14,82 @@ mat-card.populars {
 mat-card.populars:last-child {
   margin-right: 0;
 }
+
+.header-breadcrumbs {
+  background: #EEE;
+}
+
+ul.breadcrumbs {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+ul.breadcrumbs {
+  overflow: hidden;
+  width: 100%;
+}
+
+ul.breadcrumbs li{
+  float: left;
+  margin: 0 .5em 0 1em;
+}
+
+ul.breadcrumbs a{
+  background: #424242;
+  padding: .7em 1em;
+  float: left;
+  text-decoration: none;
+  color: #FFF;
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+  position: relative;
+  transition: all .4s;
+}
+
+ul.breadcrumbs a:hover{
+  background: #C70039;
+}
+
+ul.breadcrumbs a::before{
+  content: "";
+  position: absolute;
+  top: 50%;
+  margin-top: -1.5em;
+  border-width: 1.5em 0 1.5em 1em;
+  border-style: solid;
+  border-color: #424242 #424242 #424242 transparent;
+  left: -1em;
+  transition: all .4s;
+}
+
+ul.breadcrumbs a:hover::before{
+  border-color: #C70039 #C70039 #C70039 transparent;
+}
+
+ul.breadcrumbs a::after{
+  content: "";
+  position: absolute;
+  top: 50%;
+  margin-top: -1.5em;
+  border-top: 1.5em solid transparent;
+  border-bottom: 1.5em solid transparent;
+  border-left: 1em solid #424242;
+  right: -1em;
+  transition: all .4s;
+}
+
+ul.breadcrumbs a:hover::after{
+  border-left-color: #C70039;
+}
+
+ul.breadcrumbs .current,
+ul.breadcrumbs .current:hover{
+  font-weight: bold;
+  background: none;
+  color: #424242;
+}
+
+ul.breadcrumbs .current::after,
+ul.breadcrumbs .current::before{
+  content: normal;
+}
