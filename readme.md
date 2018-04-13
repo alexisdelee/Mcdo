@@ -135,10 +135,7 @@ npm run tools test
 ## Installation
 
 ```shell
-# developement environment
-npm install --only=dev
-# production environment
-npm install --only=prod
+npm run tools launch:dependencies
 
 npm run tools database:launch
 npm run tools database:import
