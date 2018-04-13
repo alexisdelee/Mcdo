@@ -13,11 +13,9 @@ import { Product } from "../../models/Product";
 
 export class OrderComponent implements OnInit {
 
-  products: Product[];
+  products: Product[] = [];
 
-  constructor(private order: OrderService) {
-    this.products = [];
-  }
+  constructor(private order: OrderService) { }
 
   ngOnInit() {
     this.order.currentOrder.subscribe(product => {
