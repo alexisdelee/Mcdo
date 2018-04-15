@@ -20,11 +20,10 @@
       <p mat-line *ngFor="let ingredient of product.ingredients">{{ ingredient.name }}</p>
     </div>
 
-    <mat-divider></mat-divider>
+    <div *ngIf="!isMenu">
+      <mat-divider></mat-divider>
 
-    <button (click)="manageProduct()" *ngIf="isOrdered; else notOrdered" mat-button color="warn">Retirer</button>
-    <ng-template #notOrdered>
-      <button (click)="manageProduct()" mat-button color="primary">Commander</button>
-    </ng-template>
+      <button (click)="manageProduct()" mat-button color="primary">Ajouter ce produit au panier</button>
+    </div>
   </mat-card-content>
 </mat-card>

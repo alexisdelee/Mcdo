@@ -16,30 +16,20 @@ import { Product } from "../../models/Product";
 export class ProductComponent implements OnInit {
 
   currentProduct: Product;
-  isOrdered: boolean;
 
   @Input() product: Product;
+  @Input() isMenu: boolean;
 
   constructor(
     private router: Router,
     private url: ActivatedRoute,
-    private order: OrderService) {
-    this.isOrdered = false;
-  }
+    private order: OrderService) { }
 
   ngOnInit() { }
 
-  // debug
   manageProduct() {
-    if (this.isOrdered) {
-      this.order.cancelProduct(this.product);
-    } else {
-      this.order.orderProduct(this.product);
-    }
-
-    this.isOrdered = !this.isOrdered;
+    this.order.orderProduct(this.product);
   }
-  // debug
 
   redirectToGroup(e): void {
     this.router.navigate([ "groups/" + e.value ]);

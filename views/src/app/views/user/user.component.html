@@ -1,26 +1,23 @@
-<!-- <app-group-list></app-group-list>
-<app-menu-list></app-menu-list> -->
+<section>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-description>Catégories</mat-panel-description>
+      </mat-expansion-panel-header>
 
-<!-- debug -->
+      <app-group-list></app-group-list>
+    </mat-expansion-panel>
+  </mat-accordion>
 
-<mat-accordion>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-description>Catégories</mat-panel-description>
-    </mat-expansion-panel-header>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-description>Menus</mat-panel-description>
+      </mat-expansion-panel-header>
 
-    <app-group-list></app-group-list>
-  </mat-expansion-panel>
-</mat-accordion>
+      <app-menu-list></app-menu-list>
+    </mat-expansion-panel>
+  </mat-accordion>
+</section>
 
-<mat-accordion>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-description>Menus</mat-panel-description>
-    </mat-expansion-panel-header>
-
-    <app-menu-list></app-menu-list>
-  </mat-expansion-panel>
-</mat-accordion>
-
-<!-- debug -->
+<app-order></app-order>

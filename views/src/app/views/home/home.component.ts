@@ -9,6 +9,8 @@ import { Component, ViewChild, OnInit } from "@angular/core";
 
 export class HomeComponent implements OnInit {
 
-  ngOnInit() { }
+  ngOnInit() {
+    sessionStorage.removeItem("order");
+  }
 
 }

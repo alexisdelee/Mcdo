@@ -9,3 +9,7 @@ mat-expansion-panel.mat-expanded {
   height: 100%;
   padding-bottom: 25px;
 }
+
+mat-panel-title {
+  margin-top: 10px;
+}

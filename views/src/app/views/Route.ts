@@ -16,7 +16,7 @@ export class Route {
     {
       path: "",
       component: HomeComponent,
-      data: { _name: "$", _dependencies: [] }
+      data: { _name: "#", _dependencies: [] }
     },
     {
       path: "admin",

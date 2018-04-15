@@ -25,7 +25,7 @@ OrderController.add = function(response, { body }, Model, callback) {
   let price = 0;
 
   Product
-    .find({ _id: { $in: body.products.map(product => mongoose.Types.ObjectId(product)) } })
+    .find({ _id: { $in: body.products.map(product => mongoose.Types.ObjectId(product._id)) } })
     .exec((err, products) => {
       if (err) {
         if (err.name === "CastError") { // id invalide
@@ -39,7 +39,7 @@ OrderController.add = function(response, { body }, Model, callback) {
       products.forEach(product => price += product.price);
 
       Menu
-        .find({ _id: { $in: body.menus.map(menu => mongoose.Types.ObjectId(menu)) } })
+        .find({ _id: { $in: body.menus.map(menu => mongoose.Types.ObjectId(menu._id)) } })
         .exec((exec, menus) => {
           if (err) {
             if (err.name === "CastError") { // id invalide

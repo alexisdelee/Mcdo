@@ -4,6 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 
 
 import { Globals } from "../Globals";
+import { OrderService } from "../../services/order/order.service";
 import { Menu } from "../../models/Menu";
 
 
@@ -21,7 +22,8 @@ export class MenuListComponent implements OnInit {
   constructor(
     private globals: Globals,
     private http: HttpClient,
-    private url: ActivatedRoute) {
+    private url: ActivatedRoute,
+    private order: OrderService) {
     this.menus = [];
   }
 
@@ -52,6 +54,10 @@ export class MenuListComponent implements OnInit {
         (menu: any) => this.menus = menu.items,
         (err: any) => console.error(err)
       );
+  }
+
+  manageProduct(menu: Menu): void {
+    this.order.orderMenu(menu);
   }
 
 }

@@ -1,5 +1,45 @@
 <mat-card>
-  <ul>
-    <li *ngFor="let product of products">{{ product.name }}</li>
-  </ul>
+  <mat-grid-list cols="2" rowHeight="300">
+    <mat-grid-tile [colspan]="1">
+      <mat-table #table [dataSource]="dataSource">
+        <ng-container matColumnDef="quantity">
+          <mat-header-cell *matHeaderCellDef>Quantité</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.quantity }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef>Produit</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.menu ? element.menu.name : element.product.name }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="unitPrice">
+          <mat-header-cell *matHeaderCellDef>Prix à l'unité</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.menu ? element.menu.price : element.product.price }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="totalPrice">
+          <mat-header-cell *matHeaderCellDef>Prix total</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ (element.menu ? element.menu.price : element.product.price) * element.quantity }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <button *ngIf="element.product; else removeMenuTemplate" (click)="removeProduct(element.product)" mat-button color="warn">[ retirer ]</button>
+            <ng-template #removeMenuTemplate>
+              <button (click)="removeMenu(element.menu)" mat-button color="warn">[ retirer ]</button>
+            </ng-template>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="['quantity', 'name', 'unitPrice', 'totalPrice', 'action']"></mat-header-row>
+        <mat-row *matRowDef="let row, columns: ['quantity', 'name', 'unitPrice', 'totalPrice', 'action'];"></mat-row>
+      </mat-table>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="1">
+      <button (click)="runOrder()" mat-button color="primary">Finaliser la commande</button>
+      <button (click)="cancelOrder()" mat-flat-button color="warn">Annuler la commande</button>
+    </mat-grid-tile>
+  </mat-grid-list>
 </mat-card>

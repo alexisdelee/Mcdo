@@ -4,6 +4,6 @@
       <mat-panel-description>{{ group[0].group.name }}</mat-panel-description>
     </mat-expansion-panel-header>
 
-    <app-product *ngFor="let _group of group" [product]="_group.product"></app-product>
+    <app-product *ngFor="let _group of group" [product]="_group.product" [isMenu]="false"></app-product>
   </mat-expansion-panel>
 </mat-accordion>

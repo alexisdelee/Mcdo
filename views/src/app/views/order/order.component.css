@@ -1,5 +1,12 @@
 mat-card {
-  min-height: 250px;
   clear: both;
   background: #EEE;
+}
+
+mat-table {
+  width: 700px;
+}
+
+mat-grid-tile:first-child {
+  border-right: 2px dashed #FFF;
 }
