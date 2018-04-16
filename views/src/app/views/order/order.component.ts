@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { MatTableDataSource } from "@angular/material";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Router } from "@angular/router";
+import { MatTableDataSource } from "@angular/material";
 
 
 import { Globals } from "../Globals";
@@ -66,6 +66,18 @@ export class OrderComponent implements OnInit {
   runOrder(): void {
     const order: Order = new Order();
 
+    /* order.products = this.basket.filter((item: Basket) => item.product).map((item: Basket) => {
+      item.product.quantity = item.quantity;
+      return item.product;
+    });
+    order.price = order.products.reduce((acc: number, el: Product) => acc + el.price, 0);
+
+    order.menus = this.basket.filter((item: Basket) => item.menu).map((item: Basket) => {
+      item.menu.quantity = item.quantity;
+      return item.menu;
+    });
+    order.price = order.menus.reduce((acc: number, el: Menu) => acc + el.price, order.price); */
+
     order.products = this.basket.filter((item: Basket) => item.product).map((item: Basket) => item.product);
     order.price = order.products.reduce((acc: number, el: Product) => acc + el.price, 0);
 
@@ -84,7 +96,7 @@ export class OrderComponent implements OnInit {
           this.router.navigate([ "/" ]);
         },
         err => console.error(err)
-      )
+      );
   }
 
   cancelOrder(): void {

@@ -10,4 +10,61 @@
 
     <button mat-button (click)="disconnect()">Déconnecter</button>
   </mat-card>
+
+  <mat-card *ngIf="dataSource">
+    <mat-grid-list cols="2">
+      <mat-grid-tile [colspan]="2">
+        <mat-table #table [dataSource]="dataSource">
+          <ng-container matColumnDef="_id">
+            <mat-header-cell *matHeaderCellDef>id</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element._id }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="menus">
+            <mat-header-cell *matHeaderCellDef>Menu</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <table class="item-table">
+                <tbody>
+                  <tr *ngFor="let menu of element.menus">
+                    <!-- <td>{{ menu.name }}</td> -->
+                    <table class="item-table">
+                      <thead>
+                        <tr>
+                          <th colspan="2">{{ menu.name }}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let product of menu.products">
+                          <td><a [routerLink]="'/products/' + product._id">{{ product.name }}</a></td>
+                          <td>{{ product.price }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <td>{{ menu.price }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="products">
+            <mat-header-cell *matHeaderCellDef>Produits</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <table class="item-table">
+                <tbody>
+                <tr *ngFor="let product of element.products">
+                  <td><a [routerLink]="'/products/' + product._id">{{ product.name }}</a></td>
+                  <td>{{ product.price }}</td>
+                </tr>
+                </tbody>
+              </table>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="['_id', 'menus', 'products']"></mat-header-row>
+          <mat-row *matRowDef="let row, columns: ['_id', 'menus', 'products'];"></mat-row>
+        </mat-table>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card>
 </ng-template>

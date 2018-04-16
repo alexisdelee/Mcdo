@@ -2,3 +2,20 @@ mat-form-field {
   width: 500px;
   margin: 0 20px;
 }
+
+mat-table {
+  width: 100%;
+}
+
+.item-table {
+  width: 100%;
+  text-align: center;
+}
+
+.item-table th, .item-table td {
+  border: 1px solid #000;
+}
+
+.item-table a {
+  text-decoration: none;
+}

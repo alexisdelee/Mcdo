@@ -18,6 +18,53 @@ Object.assign(OrderController, GlobalController); // extends
  * Example: OrderController.getById = function(response, request, Model, callback) { console.log("new controller"); };
  */
 
+OrderController.getAll = function(response, request, Model, callback) {
+  const _options = { limit: request.limit(), offset: request.offset() };
+
+  Model
+    .find({})
+    .populate("products")
+    .populate("menus")
+    .skip(_options.offset)
+    .limit(_options.limit)
+    .exec((err, orders) => {
+      if (err) {
+        if (err.name === "CastError") { // id invalide
+          return HttpException.emitter.ClientException.BadRequestError(response, err.message);
+        }
+
+        return HttpException.emitter.ServerException.InternalError(response, err.toString());
+      }
+
+      Ingredient
+        .populate(orders, { path: "products.ingredients" }, (err, orders) => {
+          if(err) return HttpException.emitter.ServerException.InternalError(response, err.toString());
+
+          Group
+            .populate(orders, { path: "products.groups" }, (err, orders) => {
+              if(err) return HttpException.emitter.ServerException.InternalError(response, err.toString());
+
+              Product
+                .populate(orders, { path: "menus.products" }, (err, orders) => {
+                  if(err) return HttpException.emitter.ServerException.InternalError(response, err.toString());
+
+                  Ingredient
+                    .populate(orders, { path: "menus.products.ingredients" }, (err, orders) => {
+                      if(err) return HttpException.emitter.ServerException.InternalError(response, err.toString());
+
+                      Group
+                        .populate(orders, { path: "menus.products.groups" }, (err, orders) => {
+                          if (err) return HttpException.emitter.ServerException.InternalError(response, err.toString());
+
+                          callback({ items: orders });
+                        });
+                    });
+                });
+            });
+        });
+    });
+};
+
 OrderController.add = function(response, { body }, Model, callback) {
   body.products = Array.isArray(body.products) ? body.products : [];
   body.menus = Array.isArray(body.menus) ? body.menus : [];
@@ -76,61 +123,6 @@ OrderController.add = function(response, { body }, Model, callback) {
             });
         });
     });
-
-  /* body.products = Array.isArray(body.products) ? body.products : [];
-  body.menus = Array.isArray(body.menus) ? body.menus : [];
-
-  // Model
-  Product
-    .find({ _id: { $in: body.products.map(product => mongoose.Types.ObjectId(product)) } })
-    .populate("ingredients")
-    .populate("groups")
-    .exec((err, products) => {
-      if (err) {
-        if (err.name === "CastError") { // id invalide
-          return HttpException.emitter.ClientException.BadRequestError(response, err.message);
-        }
-
-        return HttpException.emitter.ServerException.InternalError(response, err.toString());
-      }
-
-      // update price
-      products.forEach(product => price += product.price);
-
-      Menu
-        .find({ _id: { $in: body.menus.map(menu => mongoose.Types.ObjectId(menu)) } })
-        .populate("products")
-        .exec((exec, menus) => {
-          if (err) {
-            if (err.name === "CastError") { // id invalide
-              return HttpException.emitter.ClientException.BadRequestError(response, err.message);
-            }
-
-            return HttpException.emitter.ServerException.InternalError(response, err.toString());
-          }
-
-          Ingredient.populate(menus, { path: "products.ingredients" }, (err, menus) => {
-            if(err) return HttpException.emitter.ServerException.InternalError(response, err.toString());
-
-            Group
-              .populate(menus, { path: "products.groups" }, (err, name) => {
-                if(err) return HttpException.emitter.ServerException.InternalError(response, err.toString());
-
-                // update price
-                menus.forEach(menu => price += menu.price);
-
-                callback({
-                  items: {
-                    products: products,
-                    menus: menus
-                  },
-                  price: price,
-                  status: "waiting"
-                });
-              });
-          });
-        });
-    }); */
 };
 
 // END

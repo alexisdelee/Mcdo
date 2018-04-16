@@ -164,6 +164,12 @@
     }
   },
   "orders": {
+    "get": {
+      "/": {
+        "access": "private",
+        "method": "getAll"
+      }
+    },
     "post": {
       "/new": {
         "access": "public",

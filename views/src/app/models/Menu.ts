@@ -5,6 +5,7 @@ export class Menu {
   _id: string;
   name: string;
   price: number;
+  quantity: number;
   products: Product[];
   dateStart: Date;
   dateEnd: Date;

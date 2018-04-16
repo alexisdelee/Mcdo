@@ -10,5 +10,6 @@ export class Product {
   thumbnail: string;
   ingredients: Ingredient[];
   groups: Group[];
+  quantity: number;
 
 }

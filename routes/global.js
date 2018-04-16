@@ -39,8 +39,10 @@ for([ route, crud, subRoute, access, method ] of iterator) {
         let controller = require("../controllers/" + route);
         controller[method](response, request, Models[route.charAt(0).toUpperCase() + route.slice(1, route.length - 1)], message => {
           if(access === "private") {
+            const { generateToken } = require("../controllers/users");
+
             response.status(200).json(
-              Object.assign(message, { token: controller.users.generateToken() })
+              Object.assign(message, { token: generateToken() })
             );
           } else {
             response.status(200).json(message);
