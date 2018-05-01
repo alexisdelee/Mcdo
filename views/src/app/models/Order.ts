@@ -7,5 +7,6 @@ export class Order {
   status: string;
   products: OrderProduct[];
   menus: OrderMenu[];
+  createdAt: String;
 
 }

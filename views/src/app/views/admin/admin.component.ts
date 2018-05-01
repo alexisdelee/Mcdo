@@ -7,6 +7,7 @@ import { MatTableDataSource } from "@angular/material";
 import { Globals } from "../Globals";
 import { TokenService } from "../../services/token/token.service";
 import { OrderProduct } from "../../models/OrderProduct";
+import { OrderMenu } from "../../models/OrderMenu";
 
 
 @Component({
@@ -22,6 +23,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   visibilityToken: boolean = false;
   dataSource: any;
   navigationSubscription;
+  items: any;
 
   constructor(
     private http: HttpClient,
@@ -53,21 +55,9 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   initAdmin(token: string): void {
     this.token = token;
+    this.getAllOrders();
 
-    const headers = new HttpHeaders({ "x-access-token": token });
-
-    this
-      .http
-      .get(this.globals.resolveAPIAddress("/orders"), { headers: headers })
-      .subscribe(
-        (item: any) => {
-          item.items = item.items.reverse();
-
-          this.token = item.token;
-          this.dataSource = new MatTableDataSource(item.items);
-        },
-        (err: any) => console.error(err)
-      );
+    setInterval(() => this.getAllOrders(), 5000); // refresh
   }
 
   receiveToken($event) {
@@ -77,6 +67,49 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   disconnect(): void {
     this.token = this.tokenService.removeToken();
+  }
+
+  getAllOrders(): void {
+    const headers = new HttpHeaders({ "x-access-token": this.token });
+
+    this
+      .http
+      .get(this.globals.resolveAPIAddress("/orders"), { headers: headers })
+      .subscribe(
+        (item: any) => {
+          this.items = item.items.filter(item => item.status == "waiting").reverse();
+
+          this.token = item.token;
+          this.dataSource = new MatTableDataSource(this.items);
+        },
+        (err: any) => console.error(err)
+      );
+  }
+
+  updateOrder(id: String, status: String): void {
+    const headers = new HttpHeaders({ "x-access-token": this.token });
+
+    this
+      .http
+      .put(this.globals.resolveAPIAddress("/orders/" + id + "/status"), { status: status }, { headers: headers })
+      .subscribe(
+        (item: any) => {
+          const index = this.items.findIndex(item => item._id === id);
+          if(index != -1) {
+            this.items.splice(index, 1);
+            this.dataSource = new MatTableDataSource(this.items);
+          }
+        },
+        (err: any) => console.error(err)
+      );
+  }
+
+  getLocalDate(date: string): String {
+    return date ? (new Date(date)).toLocaleString("fr-FR", { timeZone: "UTC" }) : "";
+  }
+
+  getPriceForAllMenus(menus: OrderMenu[]): number {
+    return menus.reduce((total: number, item: OrderMenu) => total + item.menu.price * item.quantity, 0);
   }
 
   getPriceForAllProducts(products: OrderProduct[]): number {

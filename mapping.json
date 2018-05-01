@@ -175,6 +175,16 @@
         "access": "public",
         "method": "add"
       }
+    },
+    "put": {
+      "/:id": {
+        "access": "private",
+        "method": "updateById"
+      },
+      "/:id/:attribute": {
+        "access": "private",
+        "method": "updateFieldById"
+      }
     }
   }
 }

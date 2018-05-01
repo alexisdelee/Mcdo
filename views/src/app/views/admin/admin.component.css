@@ -26,6 +26,10 @@ mat-row {
   color: #424242;
 }
 
+.smallColumn {
+  flex: 0 0 200px;
+}
+
 .theme-menu { background: #4DB6AC; }
 .theme-product { background: #64B5F6; }
 .theme-product-price { background: #FFF176; }

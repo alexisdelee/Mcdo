@@ -18,7 +18,11 @@ const OrderSchema = mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "OrderMenu",
     required: true
-  }]
+  }],
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
 });
 
 module.exports = mongoose.model("Order", OrderSchema);

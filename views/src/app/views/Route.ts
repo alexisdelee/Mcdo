@@ -65,7 +65,6 @@ export class Route {
     },
     {
       path: "**",
-      // component: HomeComponent
       redirectTo: ""
     }
   ];

@@ -5,7 +5,7 @@
     <mat-checkbox [(ngModel)]="visibilityToken">{{ visibilityToken ? "Cacher le token" : "Visualiser le token" }}</mat-checkbox>
 
     <mat-form-field>
-      <input matInput [value]="visibilityToken ? token : '*'.repeat(token.length)">
+      <input matInput [type]="visibilityToken ? 'text' : 'password'" [value]="token">
     </mat-form-field>
 
     <button mat-button (click)="disconnect()">Déconnecter</button>
@@ -16,8 +16,13 @@
       <mat-grid-tile [colspan]="2">
         <mat-table #table [dataSource]="dataSource">
           <ng-container matColumnDef="_id">
-            <mat-header-cell *matHeaderCellDef>id</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element._id }}</mat-cell>
+            <mat-header-cell *matHeaderCellDef ngClass="smallColumn">id</mat-header-cell>
+            <mat-cell *matCellDef="let element" ngClass="smallColumn">{{ element._id }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="date">
+            <mat-header-cell *matHeaderCellDef ngClass="smallColumn">Commandé à</mat-header-cell>
+            <mat-cell *matCellDef="let element" ngClass="smallColumn">{{ getLocalDate(element.createdAt) }}</mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="menus">
@@ -40,13 +45,16 @@
                     </table>
                     <th class="theme-product-price-unity">Prix à l'unité</th>
                     <th class="theme-quantity">Quantité</th>
-                    <th class="theme-product-price-total">Prix total</th>
+                    <th class="theme-product-price-total">Prix total par menu</th>
                   </tr>
+                <tr>
+                  <th colspan="4" class="theme-price-total">Prix total</th>
+                </tr>
                 </tbody>
               </table>
             </mat-header-cell>
             <mat-cell *matCellDef="let element">
-              <table class="item-table">
+              <table class="item-table" *ngIf="element.menus.length">
                 <tbody>
                   <tr *ngFor="let orderMenu of element.menus">
                     <table class="item-table">
@@ -65,6 +73,9 @@
                     <td class="theme-product-price-unity">{{ orderMenu.menu.price + "€" }}</td>
                     <td class="theme-quantity">{{ orderMenu.quantity }}</td>
                     <td class="theme-product-price-total">{{ (orderMenu.menu.price * orderMenu.quantity) + "€" }}</td>
+                  </tr>
+                  <tr>
+                    <th colspan="4" class="theme-price-total">{{ getPriceForAllMenus(element.menus) + "€" }}</th>
                   </tr>
                 </tbody>
               </table>
@@ -88,7 +99,7 @@
               </table>
             </mat-header-cell>
             <mat-cell *matCellDef="let element">
-              <table class="item-table">
+              <table class="item-table" *ngIf="element.products.length">
                 <tbody>
                 <tr *ngFor="let orderProduct of element.products">
                   <td class="theme-product"><a [routerLink]="'/products/' + orderProduct.product._id">{{ orderProduct.product.name }}</a></td>
@@ -97,15 +108,23 @@
                   <td class="theme-product-price-total">{{ (orderProduct.product.price * orderProduct.quantity) + "€" }}</td>
                 </tr>
                 <tr>
-                  <td colspan="4" class="theme-price-total">{{ getPriceForAllProducts(element.products) + "€" }}</td>
+                  <th colspan="4" class="theme-price-total">{{ getPriceForAllProducts(element.products) + "€" }}</th>
                 </tr>
                 </tbody>
               </table>
             </mat-cell>
           </ng-container>
 
-          <mat-header-row *matHeaderRowDef="['_id', 'menus', 'products']"></mat-header-row>
-          <mat-row *matRowDef="let row, columns: ['_id', 'menus', 'products'];"></mat-row>
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef ngClass="smallColumn">Actions</mat-header-cell>
+            <mat-cell *matCellDef="let element" ngClass="smallColumn">
+              <button (click)="updateOrder(element._id, 'done')" mat-raised-button color="primary">Livrer</button>
+              <button (click)="updateOrder(element._id, 'cancel')" mat-raised-button color="warn">Annuler</button>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="['_id', 'date', 'menus', 'products', 'actions']"></mat-header-row>
+          <mat-row *matRowDef="let row, columns: ['_id', 'date', 'menus', 'products', 'actions'];"></mat-row>
         </mat-table>
       </mat-grid-tile>
     </mat-grid-list>
