@@ -1,5 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { NavigationEnd, Router } from "@angular/router";
 import { MatTableDataSource } from "@angular/material";
 
 
@@ -15,24 +16,40 @@ import { OrderProduct } from "../../models/OrderProduct";
   providers: [ Globals ]
 })
 
-export class AdminComponent implements OnInit {
+export class AdminComponent implements OnInit, OnDestroy {
 
   token: string;
   visibilityToken: boolean = false;
   dataSource: any;
+  navigationSubscription;
 
   constructor(
     private http: HttpClient,
+    private router: Router,
     private globals: Globals,
     private tokenService: TokenService) {
     this.tokenService.checkToken(
       sessionStorage.getItem("token") || "",
-      () => this.initAdmin(sessionStorage.getItem("token")),
+      () => {
+        this.initAdmin(sessionStorage.getItem("token"));
+
+        this.navigationSubscription = this.router.events.subscribe((e: any) => {
+          if (e instanceof NavigationEnd) {
+            this.initAdmin(sessionStorage.getItem("token"));
+          }
+        });
+      },
       () => this.disconnect()
     );
   }
 
   ngOnInit() { }
+
+  ngOnDestroy() {
+    if (this.navigationSubscription) {
+      this.navigationSubscription.unsubscribe();
+    }
+  }
 
   initAdmin(token: string): void {
     this.token = token;
@@ -44,7 +61,7 @@ export class AdminComponent implements OnInit {
       .get(this.globals.resolveAPIAddress("/orders"), { headers: headers })
       .subscribe(
         (item: any) => {
-          console.log(item);
+          item.items = item.items.reverse();
 
           this.token = item.token;
           this.dataSource = new MatTableDataSource(item.items);
@@ -55,6 +72,7 @@ export class AdminComponent implements OnInit {
 
   receiveToken($event) {
     this.token = $event;
+    this.initAdmin(this.token);
   }
 
   disconnect(): void {
