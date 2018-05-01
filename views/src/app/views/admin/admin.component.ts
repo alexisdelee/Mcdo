@@ -5,6 +5,7 @@ import { MatTableDataSource } from "@angular/material";
 
 import { Globals } from "../Globals";
 import { TokenService } from "../../services/token/token.service";
+import { OrderProduct } from "../../models/OrderProduct";
 
 
 @Component({
@@ -58,6 +59,10 @@ export class AdminComponent implements OnInit {
 
   disconnect(): void {
     this.token = this.tokenService.removeToken();
+  }
+
+  getPriceForAllProducts(products: OrderProduct[]): number {
+    return products.reduce((total: number, item: OrderProduct) => total + item.product.price * item.quantity, 0);
   }
 
 }

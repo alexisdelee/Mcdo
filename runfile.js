@@ -13,7 +13,6 @@ const __path__ = {
 };
 
 module.exports = {
-  test: () => run("node node_modules/jest/bin/jest.js"),
   launch: {
     database: () => {
       if (!fs.existsSync(__path__.database.location)) {

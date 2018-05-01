@@ -11,12 +11,12 @@ const OrderSchema = mongoose.Schema({
   },
   products: [{
     type: mongoose.Schema.ObjectId,
-    ref: "Product",
+    ref: "OrderProduct",
     required: true
   }],
   menus: [{
     type: mongoose.Schema.ObjectId,
-    ref: "Menu",
+    ref: "OrderMenu",
     required: true
   }]
 });

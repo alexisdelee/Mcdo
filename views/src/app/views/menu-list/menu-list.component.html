@@ -1,7 +1,7 @@
 <mat-accordion>
   <mat-expansion-panel *ngFor="let menu of menus">
     <mat-expansion-panel-header>
-      <mat-panel-title>{{ menu.name }}</mat-panel-title>
+      <mat-panel-title>{{ menu.name }} - <i>{{ menu.price + "€" }}</i></mat-panel-title>
 
       <mat-panel-description>
         <button (click)="manageProduct(menu)" mat-button color="primary">Ajouter ce menu au panier</button>

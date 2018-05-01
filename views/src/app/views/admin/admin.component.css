@@ -7,6 +7,11 @@ mat-table {
   width: 100%;
 }
 
+mat-row {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
 .item-table {
   width: 100%;
   text-align: center;
@@ -18,4 +23,13 @@ mat-table {
 
 .item-table a {
   text-decoration: none;
+  color: #424242;
 }
+
+.theme-menu { background: #4DB6AC; }
+.theme-product { background: #64B5F6; }
+.theme-product-price { background: #FFF176; }
+.theme-product-price-unity { background: #FDD835; }
+.theme-product-price-total { background: #F9A825; }
+.theme-price-total { background: #CE93D8; }
+.theme-quantity { background: #EF5350; }

@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 
 const HttpException = require("../internal/HttpException");
 const GlobalController = require("./global");
+const OrderProduct = require("../models/OrderProduct");
+const OrderMenu = require("../models/OrderMenu");
 const Product = require("../models/Product");
 const Menu = require("../models/Menu");
 const Ingredient = require("../models/Ingredient");
@@ -23,8 +25,6 @@ OrderController.getAll = function(response, request, Model, callback) {
 
   Model
     .find({})
-    .populate("products")
-    .populate("menus")
     .skip(_options.offset)
     .limit(_options.limit)
     .exec((err, orders) => {
@@ -36,27 +36,47 @@ OrderController.getAll = function(response, request, Model, callback) {
         return HttpException.emitter.ServerException.InternalError(response, err.toString());
       }
 
-      Ingredient
-        .populate(orders, { path: "products.ingredients" }, (err, orders) => {
+      OrderProduct
+        .populate(orders, { path: "products" }, (err, orders) => {
           if(err) return HttpException.emitter.ServerException.InternalError(response, err.toString());
 
-          Group
-            .populate(orders, { path: "products.groups" }, (err, orders) => {
+          Product
+            .populate(orders, { path: "products.product" }, (err, orders) => {
               if(err) return HttpException.emitter.ServerException.InternalError(response, err.toString());
 
-              Product
-                .populate(orders, { path: "menus.products" }, (err, orders) => {
+              Ingredient
+                .populate(orders, { path: "products.product.ingredients" }, (err, orders) => {
                   if(err) return HttpException.emitter.ServerException.InternalError(response, err.toString());
 
-                  Ingredient
-                    .populate(orders, { path: "menus.products.ingredients" }, (err, orders) => {
+                  Group
+                    .populate(orders, { path: "products.product.groups" }, (err, orders) => {
                       if(err) return HttpException.emitter.ServerException.InternalError(response, err.toString());
 
-                      Group
-                        .populate(orders, { path: "menus.products.groups" }, (err, orders) => {
-                          if (err) return HttpException.emitter.ServerException.InternalError(response, err.toString());
+                      OrderMenu
+                        .populate(orders, { path: "menus" }, (err, orders) => {
+                          if(err) return HttpException.emitter.ServerException.InternalError(response, err.toString());
 
-                          callback({ items: orders });
+                          Menu
+                            .populate(orders, { path: "menus.menu" }, (err, orders) => {
+                              if(err) return HttpException.emitter.ServerException.InternalError(response, err.toString());
+
+                              Product
+                                .populate(orders, { path: "menus.menu.products" }, (err, orders) => {
+                                  if(err) return HttpException.emitter.ServerException.InternalError(response, err.toString());
+
+                                  Ingredient
+                                    .populate(orders, { path: "menus.menu.products.ingredients" }, (err, orders) => {
+                                      if(err) return HttpException.emitter.ServerException.InternalError(response, err.toString());
+
+                                      Group
+                                        .populate(orders, { path: "menus.menu.products.groups" }, (err, orders) => {
+                                          if(err) return HttpException.emitter.ServerException.InternalError(response, err.toString());
+
+                                          callback({ items: orders });
+                                        });
+                                    });
+                                });
+                            });
                         });
                     });
                 });
@@ -65,14 +85,9 @@ OrderController.getAll = function(response, request, Model, callback) {
     });
 };
 
-OrderController.add = function(response, { body }, Model, callback) {
-  body.products = Array.isArray(body.products) ? body.products : [];
-  body.menus = Array.isArray(body.menus) ? body.menus : [];
-
-  let price = 0;
-
+OrderController.add = async function(response, { body }, Model, callback) {
   Product
-    .find({ _id: { $in: body.products.map(product => mongoose.Types.ObjectId(product._id)) } })
+    .find({ _id: { $in: body.products.map(item => mongoose.Types.ObjectId(item.product._id)) } })
     .exec((err, products) => {
       if (err) {
         if (err.name === "CastError") { // id invalide
@@ -82,12 +97,9 @@ OrderController.add = function(response, { body }, Model, callback) {
         return HttpException.emitter.ServerException.InternalError(response, err.toString());
       }
 
-      // update price
-      products.forEach(product => price += product.price);
-
       Menu
-        .find({ _id: { $in: body.menus.map(menu => mongoose.Types.ObjectId(menu._id)) } })
-        .exec((exec, menus) => {
+        .find({ _id: { $in: body.menus.map(item => mongoose.Types.ObjectId(item.menu._id)) } })
+        .exec((err, menus) => {
           if (err) {
             if (err.name === "CastError") { // id invalide
               return HttpException.emitter.ClientException.BadRequestError(response, err.message);
@@ -96,30 +108,86 @@ OrderController.add = function(response, { body }, Model, callback) {
             return HttpException.emitter.ServerException.InternalError(response, err.toString());
           }
 
-          // update price
-          menus.forEach(menu => price += menu.price);
+          Promise.all(
+            products.map(product => {
+              return new Promise((resolve, reject) => {
+                let orderProductModel = new OrderProduct({
+                  product: product._id,
+                  quantity: body.products.find(item => item.product._id === product._id.toString()).quantity
+                });
 
-          // save
-          let model = new Model({
-            price: price,
-            status: "waiting",
-            products: body.products,
-            menus: body.menus
-          });
+                orderProductModel
+                  .save((err, orderProducts) => {
+                    if (err) {
+                      reject(err);
+                    } else {
+                      resolve(orderProducts);
+                    }
+                  });
+              });
+            })
+          )
+            .then(orderProducts => {
+              Promise.all(
+                menus.map(menu => {
+                  return new Promise((resolve, reject) => {
+                    let orderMenuModel = new OrderMenu({
+                      menu: menu._id,
+                      quantity: body.menus.find(item => item.menu._id === menu._id.toString()).quantity
+                    });
 
-          model
-            .save((err, items) => {
-              if(err) {
-                if(err.code === 11000) { // l'item existe déjà
-                  return HttpException.emitter.ClientException.BadRequestError(response, err.errmsg);
-                } else if(err.name === "ValidationError") { // l'utilisateur n'a pas envoyé d'item
-                  return HttpException.emitter.ClientException.BadRequestError(response, err.message);
-                }
+                    orderMenuModel
+                      .save((err, orderMenus) => {
+                        if (err) {
+                          reject(err);
+                        } else {
+                          resolve(orderMenus);
+                        }
+                      });
+                  });
+                })
+              )
+                .then(orderMenus => {
+                  let model = new Model({
+                    price: body.price,
+                    status: "waiting",
+                    products: orderProducts,
+                    menus: orderMenus
+                  });
 
-                return HttpException.emitter.ServerException.InternalError(response, err.toString());
+                  model
+                    .save((err, orders) => {
+                      if(err) {
+                        if (err.code === 11000) { // l'item existe déjà
+                          return HttpException.emitter.ClientException.BadRequestError(response, err.errmsg);
+                        } else if (err.name === "ValidationError") { // l'utilisateur n'a pas envoyé d'item
+                          return HttpException.emitter.ClientException.BadRequestError(response, err.message);
+                        }
+
+                        return HttpException.emitter.ServerException.InternalError(response, err.toString());
+                      }
+
+                      callback({ items: orders });
+                    });
+                })
+                .catch(err => {
+                  if (err.code === 11000) { // l'item existe déjà
+                    return HttpException.emitter.ClientException.BadRequestError(response, err.errmsg);
+                  } else if (err.name === "ValidationError") { // l'utilisateur n'a pas envoyé d'item
+                    return HttpException.emitter.ClientException.BadRequestError(response, err.message);
+                  }
+
+                  return HttpException.emitter.ServerException.InternalError(response, err.toString());
+                });
+            })
+            .catch(err => {
+              if (err.code === 11000) { // l'item existe déjà
+                return HttpException.emitter.ClientException.BadRequestError(response, err.errmsg);
+              } else if (err.name === "ValidationError") { // l'utilisateur n'a pas envoyé d'item
+                return HttpException.emitter.ClientException.BadRequestError(response, err.message);
               }
 
-              callback({ items: items });
+              return HttpException.emitter.ServerException.InternalError(response, err.toString());
             });
         });
     });

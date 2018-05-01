@@ -29,7 +29,7 @@
 | private | POST    | /products/new            | Ajouter un nouveau produit.                               |
 | private | PUT     | /products/:id            | Modifier un produit.                                      |
 | private | PUT     | /products/:id/:attribute | Modifier un attribut spécifique d'un produit.             |
-| private | DELETE  | /products/:id            | Supprimer un produit                                      |
+| private | DELETE  | /products/:id            | Supprimer un produit.                                     |
 
 ### Routes pour la gestion des groupes :
 
@@ -42,7 +42,7 @@
 | private | POST    | /groups/new            | Ajouter un nouveau groupe.                               |
 | private | PUT     | /groups/:id            | Modifier un groupe.                                      |
 | private | PUT     | /groups/:id/:attribute | Modifier un attribut spécifique d'un groupe.             |
-| private | DELETE  | /groups/:id            | Supprimer un groupe                                      |
+| private | DELETE  | /groups/:id            | Supprimer un groupe.                                     |
 
 ### Routes pour la gestion des menus
 
@@ -53,15 +53,21 @@
 | private | POST    | /menus/new            | Ajouter un nouveau menu.                   |
 | private | PUT     | /menus/:id            | Modifier un menu.                          |
 | private | PUT     | /menus/:id/:attribute | Modifier un attribut spécifique d'un menu. |
-| private | DELETE  | /menus/:id            | Supprimer un menu                          |
+| private | DELETE  | /menus/:id            | Supprimer un menu.                         |
 
 ### Routes pour la gestion des utilisateurs
 
 |  Accès  | Méthode |            Route           |            Explication          |
 |:-------:|:-------:|:--------------------------:|:-------------------------------:|
 | public  | POST    | /users/token/authorization | Obtenir un token.               |
-| public  | POST    | /users/token/verify        | Vérifier la validité d'un token |
+| public  | POST    | /users/token/verify        | Vérifier la validité d'un token.|
 
+### Routes pour la gestion des commandes
+
+|  Accès  | Méthode |            Route           |            Explication          |
+|:-------:|:-------:|:--------------------------:|:-------------------------------:|
+| private | GET     | /orders                    | Obtenir toutes les commandes.   |
+| public  | POST    | /orders/new                | Ajouter une nouvelle commande.  |
 
 Les queries ``limit`` et ``offset`` sont étendues sur les méthodes __getAll__ et __getProducts__.  
 
@@ -72,6 +78,7 @@ Les queries ``limit`` et ``offset`` sont étendues sur les méthodes __getAll__ 
 /groups
 /groups/products
 /menus
+/orders
 ```
 
 ## Models
@@ -82,6 +89,9 @@ Les models sont les suivants :
  - [Group](models/Group.js)  
  - [Menu](models/Menu.js)  
  - [User](models/User.js)  
+ - [Order](models/Order.js)  
+ - [Order Product](models/OrderProduct.js)  
+ - [Order Menu](models/OrderMenu.js)  
 
 ## Environnement
 
@@ -122,14 +132,6 @@ Localisation : webconfig.json#14:5
 ```shell
 # lancer le serveur interne
 npm run tools launch:client
-```
-
-### Tests unitaires
-
-Les tests unitaires seront exécutés avec Jest.  
-
-```shell
-npm run tools test
 ```
 
 ## Installation

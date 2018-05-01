@@ -64,33 +64,21 @@ export class OrderComponent implements OnInit {
   }
 
   runOrder(): void {
-    const order: Order = new Order();
+    const order: Order = this.basket.reduce((acc: Order, item: Basket) => {
+      if(item.product) {
+        acc.products.push({ product: item.product, quantity: item.quantity });
+        acc.price += (item.product.price * item.quantity);
+      } else if(item.menu) {
+        acc.menus.push({ menu: item.menu, quantity: item.quantity });
+        acc.price += (item.menu.price * item.quantity);
+      }
 
-    /* order.products = this.basket.filter((item: Basket) => item.product).map((item: Basket) => {
-      item.product.quantity = item.quantity;
-      return item.product;
-    });
-    order.price = order.products.reduce((acc: number, el: Product) => acc + el.price, 0);
-
-    order.menus = this.basket.filter((item: Basket) => item.menu).map((item: Basket) => {
-      item.menu.quantity = item.quantity;
-      return item.menu;
-    });
-    order.price = order.menus.reduce((acc: number, el: Menu) => acc + el.price, order.price); */
-
-    order.products = this.basket.filter((item: Basket) => item.product).map((item: Basket) => item.product);
-    order.price = order.products.reduce((acc: number, el: Product) => acc + el.price, 0);
-
-    order.menus = this.basket.filter((item: Basket) => item.menu).map((item: Basket) => item.menu);
-    order.price = order.menus.reduce((acc: number, el: Menu) => acc + el.price, order.price);
+      return acc;
+    }, { price: 0, status: "", products: [], menus: [] });
 
     this
       .http
-      .post(this.globals.resolveAPIAddress("/orders/new"), {
-        products: order.products,
-        menus: order.menus,
-        price: order.price
-      }).subscribe(
+      .post(this.globals.resolveAPIAddress("/orders/new"), order).subscribe(
         (response: any) => {
           this.dialog.show(JSON.stringify(response, null, 2), "Récapitulatif de la commande");
           this.router.navigate([ "/" ]);

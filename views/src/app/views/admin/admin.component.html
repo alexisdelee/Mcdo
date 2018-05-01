@@ -21,26 +21,50 @@
           </ng-container>
 
           <ng-container matColumnDef="menus">
-            <mat-header-cell *matHeaderCellDef>Menu</mat-header-cell>
-            <mat-cell *matCellDef="let element">
+            <mat-header-cell *matHeaderCellDef>
               <table class="item-table">
                 <tbody>
-                  <tr *ngFor="let menu of element.menus">
-                    <!-- <td>{{ menu.name }}</td> -->
+                  <tr>
                     <table class="item-table">
                       <thead>
                         <tr>
-                          <th colspan="2">{{ menu.name }}</th>
+                          <th colspan="2" class="theme-menu">Menu</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let product of menu.products">
-                          <td><a [routerLink]="'/products/' + product._id">{{ product.name }}</a></td>
-                          <td>{{ product.price }}</td>
+                        <tr>
+                          <th class="theme-product">Produit</th>
+                          <th class="theme-product-price">Prix à l'unité</th>
                         </tr>
                       </tbody>
                     </table>
-                    <td>{{ menu.price }}</td>
+                    <th class="theme-product-price-unity">Prix à l'unité</th>
+                    <th class="theme-quantity">Quantité</th>
+                    <th class="theme-product-price-total">Prix total</th>
+                  </tr>
+                </tbody>
+              </table>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <table class="item-table">
+                <tbody>
+                  <tr *ngFor="let orderMenu of element.menus">
+                    <table class="item-table">
+                      <thead>
+                        <tr>
+                          <th colspan="2" class="theme-menu">{{ orderMenu.menu.name }}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let product of orderMenu.menu.products">
+                          <td class="theme-product"><a [routerLink]="'/products/' + product._id">{{ product.name }}</a></td>
+                          <td class="theme-product-price">{{ product.price + "€" }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <td class="theme-product-price-unity">{{ orderMenu.menu.price + "€" }}</td>
+                    <td class="theme-quantity">{{ orderMenu.quantity }}</td>
+                    <td class="theme-product-price-total">{{ (orderMenu.menu.price * orderMenu.quantity) + "€" }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -48,13 +72,32 @@
           </ng-container>
 
           <ng-container matColumnDef="products">
-            <mat-header-cell *matHeaderCellDef>Produits</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef>
+              <table class="item-table">
+                <tbody>
+                  <tr>
+                    <th class="theme-product">Produit</th>
+                    <th class="theme-product-price-unity">Prix à l'unité</th>
+                    <th class="theme-quantity">Quantité</th>
+                    <th class="theme-product-price-total">Prix total par produit</th>
+                  </tr>
+                  <tr>
+                    <th colspan="4" class="theme-price-total">Prix total</th>
+                  </tr>
+                </tbody>
+              </table>
+            </mat-header-cell>
             <mat-cell *matCellDef="let element">
               <table class="item-table">
                 <tbody>
-                <tr *ngFor="let product of element.products">
-                  <td><a [routerLink]="'/products/' + product._id">{{ product.name }}</a></td>
-                  <td>{{ product.price }}</td>
+                <tr *ngFor="let orderProduct of element.products">
+                  <td class="theme-product"><a [routerLink]="'/products/' + orderProduct.product._id">{{ orderProduct.product.name }}</a></td>
+                  <td class="theme-product-price-unity">{{ orderProduct.product.price + "€" }}</td>
+                  <td class="theme-quantity">{{ orderProduct.quantity }}</td>
+                  <td class="theme-product-price-total">{{ (orderProduct.product.price * orderProduct.quantity) + "€" }}</td>
+                </tr>
+                <tr>
+                  <td colspan="4" class="theme-price-total">{{ getPriceForAllProducts(element.products) + "€" }}</td>
                 </tr>
                 </tbody>
               </table>

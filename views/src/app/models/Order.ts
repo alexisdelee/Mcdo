@@ -1,11 +1,11 @@
-import { Product } from "./Product";
-import { Menu } from "./Menu";
+import { OrderProduct } from "./OrderProduct";
+import { OrderMenu } from "./OrderMenu";
 
 export class Order {
 
   price: number;
   status: string;
-  products: Product[];
-  menus: Menu[];
+  products: OrderProduct[];
+  menus: OrderMenu[];
 
 }

@@ -4,5 +4,7 @@ module.exports = {
   Menu: require("../models/Menu"),
   Group: require("../models/Group"),
   User: require("../models/User"),
-  Order: require("../models/Order")
+  Order: require("../models/Order"),
+  OrderProduct: require("../models/OrderProduct"),
+  OrderMenu: require("../models/OrderMenu")
 };
