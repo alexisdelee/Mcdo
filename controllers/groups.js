@@ -18,7 +18,7 @@ Object.assign(GroupController, GlobalController); // extends
 GroupController.getProducts = function(response, request, Model, endpoint, callback) {
   let groups = {};
 
-  ProductController.getAll(response, request, Product, products => {
+  ProductController.getAll(response, request, Product, endpoint, products => {
     products.items.forEach(product => {
       product.groups.forEach(group => {
         if(groups[group._id] === undefined) {
@@ -36,7 +36,7 @@ GroupController.getProducts = function(response, request, Model, endpoint, callb
 GroupController.getProductsById = function(response, request, Model, endpoint, callback) {
   let group = [];
 
-  ProductController.getAll(response, request, Product, products => {
+  ProductController.getAll(response, request, Product, endpoint, products => {
     products.items.forEach(product => {
       product.groups.forEach(_group => {
         if(_group._id.toString() === request.params.id) {
