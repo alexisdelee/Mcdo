@@ -1,0 +1,39 @@
+{
+  order {
+    price
+    products {
+      product {
+        name
+        price
+        thumbnail
+        ingredients {
+          name
+        }
+        groups {
+          name
+        }
+      }
+      quantity
+    },
+    menus {
+      menu {
+        name
+        price
+        products {
+          name
+          price
+          thumbnail
+          ingredients {
+            name
+          }
+          groups {
+            name
+          }
+        }
+        dateStart
+        dateEnd
+      }
+      quantity
+    }
+  }
+}

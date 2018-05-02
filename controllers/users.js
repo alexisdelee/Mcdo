@@ -4,6 +4,7 @@ const jsonwebtoken = require("jsonwebtoken");
 const SECRET_TOKEN = require("../internal/token");
 const GlobalController = require("./global");
 const HttpException = require("../internal/HttpException");
+const route = require("../internal/route");
 
 const UserController = function() { };
 
@@ -20,9 +21,14 @@ UserController.generateToken = function() {
   return jsonwebtoken.sign({ auth: true }, SECRET_TOKEN, { expiresIn: "1h" }); // expire after 1h
 };
 
-UserController.getAuthorization = function(response, { body }, Model, callback) {
-  body.login = body.login || "";
-  body.password = body.password || "";
+UserController.getAuthorization = async function(response, { body }, Model, endpoint, callback) {
+  if(!!endpoint) {
+    try {
+      body = await route.graphql(body, response.req.originalUrl, endpoint);
+    } catch(err) {
+      return HttpException.emitter.ClientException.BadRequestError(response, err);
+    }
+  }
 
   Model.findOne({ login: body.login, password: crypto.createHash("sha256").update(body.password).digest("base64") }, (err, user) => {
     if(err) {
@@ -39,8 +45,14 @@ UserController.getAuthorization = function(response, { body }, Model, callback) 
   });
 };
 
-UserController.checkToken = function(response, { body }, Model, callback) {
-  body.token = body.token || "";
+UserController.checkToken = async function(response, { body }, Model, endpoint, callback) {
+  if(!!endpoint) {
+    try {
+      body = await route.graphql(body, response.req.originalUrl, endpoint);
+    } catch(err) {
+      return HttpException.emitter.ClientException.BadRequestError(response, err);
+    }
+  }
 
   jsonwebtoken.verify(body.token, SECRET_TOKEN, err => {
     if(err) return HttpException.emitter.ClientException.UnauthorizedError(response);

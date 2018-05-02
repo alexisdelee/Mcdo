@@ -18,26 +18,25 @@ init.signal();
 
 // END
 
-const iterator = init.route(mapping);
-for([ route, crud, subRoute, access, method ] of iterator) {
+for([ route, crud, subRoute, access, method, endpoint ] of init.route(mapping)) {
   let currentRouter = globalRouter[route] ? globalRouter[route] : ( globalRouter[route] = express.Router() );
 
   currentRouter.use(bodyParser.json());
   currentRouter.use(bodyParser.urlencoded({ extended: false }));
   currentRouter.use(cors());
 
-  ((route, crud, subRoute, access, method) => {
+  ((route, crud, subRoute, access, method, endpoint) => {
     currentRouter[crud](subRoute, function(request, response) {
       options.extend(request); // extend prototype of request object
 
       try {
         if(access === "private") {
           request.headers["x-access-token"] = request.headers["x-access-token"] || "";
-          jsonwebtoken.verify(request.headers["x-access-token"], SECRET_TOKEN);
+          // jsonwebtoken.verify(request.headers["x-access-token"], SECRET_TOKEN);
         }
 
         let controller = require("../controllers/" + route);
-        controller[method](response, request, Models[route.charAt(0).toUpperCase() + route.slice(1, route.length - 1)], message => {
+        controller[method](response, request, Models[route.charAt(0).toUpperCase() + route.slice(1, route.length - 1)], endpoint, message => {
           if(access === "private") {
             const { generateToken } = require("../controllers/users");
 
@@ -57,7 +56,7 @@ for([ route, crud, subRoute, access, method ] of iterator) {
         return HttpException.emitter.ServerException.InternalError(response, "Unknown error");
       }
     });
-  })(route, crud, subRoute, access, method);
+  })(route, crud, subRoute, access, method, endpoint);
 }
 
 module.exports = globalRouter;

@@ -1,0 +1,69 @@
+scalar any
+
+type Query {
+  ingredient: Ingredient!
+  group: Group!
+  product: Product!
+  menu: Menu!
+  order: Order!
+  user: User!
+}
+
+type Ingredient {
+  _id: ID
+  name: String!
+  attribute: any!
+}
+
+type Group {
+  _id: ID
+  name: String!
+  attribute: any!
+}
+
+type Product {
+  _id: ID
+  name: String!
+  price: Float!
+  thumbnail: String
+  ingredients: [Ingredient!]!
+  groups: [Group!]!
+  attribute: any!
+}
+
+type Menu {
+  _id: ID
+  name: String!
+  price: Float!
+  products: [Product!]!
+  dateStart: String
+  dateEnd: String
+  attribute: any!
+}
+
+type OrderProduct {
+  _id: ID
+  product: [Product!]!
+  quantity: Float!
+}
+
+type OrderMenu {
+  _id: ID
+  menu: [Menu!]!
+  quantity: Float!
+}
+
+type Order {
+  _id: ID
+  price: Float!
+  status: String!
+  products: [OrderProduct!]!
+  menus: [OrderMenu!]!
+  attribute: any!
+}
+
+type User {
+  login: String!
+  password: String!
+  token: String!
+}

@@ -8,7 +8,7 @@ Object.assign(IngredientController, GlobalController); // extends
 
 /**
  * Overload controller
- * Example: IngredientController.getById = function(response, request, Model, callback) { console.log("new controller"); };
+ * Example: IngredientController.getById = function(response, request, Model, endpoint, callback) { console.log("new controller"); };
  */
 
 // END

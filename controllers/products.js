@@ -11,10 +11,10 @@ Object.assign(ProductController, GlobalController); // extends
 
 /**
  * Overload controller
- * Example: ProductController.getById = function(response, request, Model, callback) { console.log("new controller"); };
+ * Example: ProductController.getById = function(response, request, Model, endpoint, callback) { console.log("new controller"); };
  */
 
-ProductController.getAll = function(response, request, Model, callback) {
+ProductController.getAll = function(response, request, Model, endpoint, callback) {
   const _options = { limit: request.limit(), offset: request.offset() };
 
   Model
@@ -32,7 +32,7 @@ ProductController.getAll = function(response, request, Model, callback) {
     });
 };
 
-ProductController.getById = function(response, { params }, Model, callback) {
+ProductController.getById = function(response, { params }, Model, endpoint, callback) {
   Model
     .findById(params.id)
     .populate("ingredients")
@@ -52,7 +52,7 @@ ProductController.getById = function(response, { params }, Model, callback) {
     });
 };
 
-ProductController.getAllPopulars = function(response, request, Model, callback) {
+ProductController.getAllPopulars = function(response, request, Model, endpoint, callback) {
   const _options = { limit: request.limit(), offset: request.offset() };
 
   Model
@@ -70,7 +70,7 @@ ProductController.getAllPopulars = function(response, request, Model, callback) 
     });
 };
 
-ProductController.getPopularById = function(response, { params }, Model, callback) {
+ProductController.getPopularById = function(response, { params }, Model, endpoint, callback) {
   Model
     .findById(params.id)
     .where("popular").equals(true)

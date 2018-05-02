@@ -1,3 +1,6 @@
+const fs = require("fs");
+const { graphql, buildSchema } = require("graphql");
+
 const HttpException = require("../internal/HttpException");
 
 module.exports = {
@@ -24,5 +27,22 @@ module.exports = {
         yield *module.exports.route(value, depth + 1, options.slice(0)); // pass copy, not reference
       }
     }
+  },
+  graphql: (data, path, endpoint) => {
+    path = path.split("/").filter(url => !!url)[0].slice(0, -1).toLowerCase();
+
+    return new Promise((resolve, reject) => {
+      graphql(
+        buildSchema(fs.readFileSync(__dirname + "/../graphql/schema.graphqls", { encoding: "utf8" })),
+        fs.readFileSync(__dirname + "/../graphql/" + path + "/" + endpoint + ".graphqle", { encoding: "utf8" }),
+        data
+      ).then(response => {
+        if (response.errors) {
+          reject(response.errors.map(e => e.message));
+        } else {
+          resolve(response.data[path]);
+        }
+      });
+    });
   }
 };

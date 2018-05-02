@@ -1,0 +1,19 @@
+{
+  menu {
+    name
+    price
+    products {
+      name
+      price
+      thumbnail
+      ingredients {
+        name
+      }
+      groups {
+        name
+      }
+    }
+    dateStart
+    dateEnd
+  }
+}

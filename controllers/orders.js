@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const HttpException = require("../internal/HttpException");
+const route = require("../internal/route");
 const GlobalController = require("./global");
 const OrderProduct = require("../models/OrderProduct");
 const OrderMenu = require("../models/OrderMenu");
@@ -17,10 +18,10 @@ Object.assign(OrderController, GlobalController); // extends
 
 /**
  * Overload controller
- * Example: OrderController.getById = function(response, request, Model, callback) { console.log("new controller"); };
+ * Example: OrderController.getById = function(response, request, Model, endpoint, callback) { console.log("new controller"); };
  */
 
-OrderController.getAll = function(response, request, Model, callback) {
+OrderController.getAll = function(response, request, Model, endpoint, callback) {
   const _options = { limit: request.limit(), offset: request.offset() };
 
   Model
@@ -85,7 +86,15 @@ OrderController.getAll = function(response, request, Model, callback) {
     });
 };
 
-OrderController.add = async function(response, { body }, Model, callback) {
+OrderController.add = async function(response, { body }, Model, endpoint, callback) {
+  if(!!endpoint) {
+    try {
+      body = await route.graphql(body, response.req.originalUrl, endpoint);
+    } catch(err) {
+      return HttpException.emitter.ClientException.BadRequestError(response, err);
+    }
+  }
+
   Product
     .find({ _id: { $in: body.products.map(item => mongoose.Types.ObjectId(item.product._id)) } })
     .exec((err, products) => {

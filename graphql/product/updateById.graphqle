@@ -1,0 +1,13 @@
+{
+  product {
+    name
+    price
+    thumbnail
+    ingredients {
+      name
+    }
+    groups {
+      name
+    }
+  }
+}

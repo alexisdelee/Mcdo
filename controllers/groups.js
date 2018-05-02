@@ -12,10 +12,10 @@ Object.assign(GroupController, GlobalController); // extends
 
 /**
  * Overload controller
- * Example: GroupController.getById = function(response, request, Model, callback) { console.log("new controller"); };
+ * Example: GroupController.getById = function(response, request, Model, endpoint, callback) { console.log("new controller"); };
  */
 
-GroupController.getProducts = function(response, request, Model, callback) {
+GroupController.getProducts = function(response, request, Model, endpoint, callback) {
   let groups = {};
 
   ProductController.getAll(response, request, Product, products => {
@@ -33,7 +33,7 @@ GroupController.getProducts = function(response, request, Model, callback) {
   });
 };
 
-GroupController.getProductsById = function(response, request, Model, callback) {
+GroupController.getProductsById = function(response, request, Model, endpoint, callback) {
   let group = [];
 
   ProductController.getAll(response, request, Product, products => {

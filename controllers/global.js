@@ -1,8 +1,9 @@
 const HttpException = require("../internal/HttpException");
+const route = require("../internal/route");
 
 const GlobalController = function() { };
 
-GlobalController.getAll = function(response, request, Model, callback) {
+GlobalController.getAll = function(response, request, Model, endpoint, callback) {
   const _options = { limit: request.limit(), offset: request.offset() };
 
   Model
@@ -18,7 +19,7 @@ GlobalController.getAll = function(response, request, Model, callback) {
     });
 };
 
-GlobalController.getById = function(response, { params }, Model, callback) {
+GlobalController.getById = function(response, { params }, Model, endpoint, callback) {
   Model
     .findById(params.id, (err, items) => {
       if(err) {
@@ -35,7 +36,15 @@ GlobalController.getById = function(response, { params }, Model, callback) {
     });
 };
 
-GlobalController.add = function(response, { body }, Model, callback) {
+GlobalController.add = async function(response, { body }, Model, endpoint, callback) {
+  if(!!endpoint) {
+    try {
+      body = await route.graphql(body, response.req.originalUrl, endpoint);
+    } catch(err) {
+      return HttpException.emitter.ClientException.BadRequestError(response, err);
+    }
+  }
+
   let model = new Model(body);
   model
     .save((err, items) => {
@@ -53,7 +62,15 @@ GlobalController.add = function(response, { body }, Model, callback) {
     });
 };
 
-GlobalController.updateById = function(response, { params, body }, Model, callback) {
+GlobalController.updateById = async function(response, { params, body }, Model, endpoint, callback) {
+  if(!!endpoint) {
+    try {
+      body = await route.graphql(body, response.req.originalUrl, endpoint);
+    } catch(err) {
+      return HttpException.emitter.ClientException.BadRequestError(response, err);
+    }
+  }
+
   Model
     .findByIdAndUpdate(params.id, body, { new: true }, (err, items) => {
       if(err) {
@@ -70,13 +87,21 @@ GlobalController.updateById = function(response, { params, body }, Model, callba
     });
 };
 
-GlobalController.updateFieldById = function(response, { params, body }, Model, callback) {
+GlobalController.updateFieldById = async function(response, { params, body }, Model, endpoint, callback) {
+  if(!!endpoint) {
+    try {
+      body = await route.graphql(body, response.req.originalUrl, endpoint);
+    } catch(err) {
+      return HttpException.emitter.ClientException.BadRequestError(response, err);
+    }
+  }
+
   if(Object.keys(Model.schema.paths).includes(params.attribute) === false) {
     return HttpException.emitter.ClientException.BadRequestError(response, "There is no item with this attribute");
   }
 
   Model
-    .findByIdAndUpdate(params.id, { $set: { [params.attribute]: body[params.attribute] } }, { new: true }, (err, items) => {
+    .findByIdAndUpdate(params.id, { $set: { [params.attribute]: body.attribute } }, { new: true }, (err, items) => {
       if(err) {
         if (err.name === "CastError") { // id invalide
           return HttpException.emitter.ClientException.BadRequestError(response, err.message);
@@ -91,7 +116,7 @@ GlobalController.updateFieldById = function(response, { params, body }, Model, c
     });
 };
 
-GlobalController.deleteById = function(response, { params }, Model, callback) {
+GlobalController.deleteById = function(response, { params }, Model, endpoint, callback) {
   Model.findByIdAndRemove(params.id, (err, items) => {
     if(err) {
       return HttpException.emitter.ServerException.InternalError(response, err.toString());

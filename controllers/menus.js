@@ -13,10 +13,10 @@ Object.assign(MenuController , GlobalController); // extends
 
 /**
  * Overload controller
- * Example: MenuController .getById = function(response, request, Model, callback) { console.log("new controller"); };
+ * Example: MenuController .getById = function(response, request, Model, endpoint, callback) { console.log("new controller"); };
  */
 
-MenuController.getAll = function(response, request, Model, callback) {
+MenuController.getAll = function(response, request, Model, endpoint, callback) {
   const _options = { limit: request.limit(), offset: request.offset() };
 
   Model
@@ -43,7 +43,7 @@ MenuController.getAll = function(response, request, Model, callback) {
     });
 };
 
-MenuController.getById = function(response, { params }, Model, callback) {
+MenuController.getById = function(response, { params }, Model, endpoint, callback) {
   Model
     .findById(params.id)
     .populate("products")
