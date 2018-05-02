@@ -20,7 +20,7 @@ export class TokenService {
   checkToken(token, success, err): void {
     this
       .http
-      .post(this.globals.resolveAPIAddress("/users/token/verify"), { token: token })
+      .post(this.globals.resolveAPIAddress("/users/token/verify"), { user: { token: token } })
       .subscribe(() => success(), () => err());
   }
 
@@ -32,7 +32,7 @@ export class TokenService {
   getToken(login, password, success, err): void {
     this
       .http
-      .post(this.globals.resolveAPIAddress("/users/token/authorization"), { login: login, password: password })
+      .post(this.globals.resolveAPIAddress("/users/token/authorization"), { user: { login: login, password: password } })
       .subscribe((data: any) => success(data), (data: any) => err(data));
   }
 

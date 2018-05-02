@@ -74,11 +74,11 @@ export class OrderComponent implements OnInit {
       }
 
       return acc;
-    }, { price: 0, status: "", products: [], menus: [] });
+    }, { price: 0, status: "", products: [], menus: [], createdAt: "" });
 
     this
       .http
-      .post(this.globals.resolveAPIAddress("/orders/new"), order).subscribe(
+      .post(this.globals.resolveAPIAddress("/orders/new"), { order: order }).subscribe(
         (response: any) => {
           this.dialog.show(JSON.stringify(response, null, 2), "Récapitulatif de la commande");
           this.router.navigate([ "/" ]);

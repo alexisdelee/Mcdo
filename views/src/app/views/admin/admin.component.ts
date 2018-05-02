@@ -24,6 +24,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   dataSource: any;
   navigationSubscription;
   items: any;
+  refresh: any;
 
   constructor(
     private http: HttpClient,
@@ -57,7 +58,7 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.token = token;
     this.getAllOrders();
 
-    setInterval(() => this.getAllOrders(), 5000); // refresh
+    this.refresh = setInterval(() => this.getAllOrders(), 5000); // refresh
   }
 
   receiveToken($event) {
@@ -66,6 +67,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   disconnect(): void {
+    clearInterval(this.refresh);
     this.token = this.tokenService.removeToken();
   }
 
@@ -91,7 +93,7 @@ export class AdminComponent implements OnInit, OnDestroy {
 
     this
       .http
-      .put(this.globals.resolveAPIAddress("/orders/" + id + "/status"), { status: status }, { headers: headers })
+      .put(this.globals.resolveAPIAddress("/orders/" + id + "/status"), { order: { attribute: status } }, { headers: headers })
       .subscribe(
         (item: any) => {
           const index = this.items.findIndex(item => item._id === id);

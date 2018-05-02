@@ -43,13 +43,13 @@ type Menu {
 
 type OrderProduct {
   _id: ID
-  product: [Product!]!
+  product: Product!
   quantity: Float!
 }
 
 type OrderMenu {
   _id: ID
-  menu: [Menu!]!
+  menu: Menu!
   quantity: Float!
 }
 

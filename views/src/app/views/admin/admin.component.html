@@ -21,7 +21,7 @@
           </ng-container>
 
           <ng-container matColumnDef="date">
-            <mat-header-cell *matHeaderCellDef ngClass="smallColumn">Commandé à</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef ngClass="smallColumn">Heure de la commande</mat-header-cell>
             <mat-cell *matCellDef="let element" ngClass="smallColumn">{{ getLocalDate(element.createdAt) }}</mat-cell>
           </ng-container>
 
