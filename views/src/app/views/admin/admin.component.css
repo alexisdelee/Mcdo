@@ -5,11 +5,17 @@ mat-form-field {
 
 mat-table {
   width: 100%;
+  text-align: center;
 }
 
 mat-row {
   padding-top: 10px;
   padding-bottom: 10px;
+}
+
+mat-header-row {
+  padding: 10px 0;
+  background: #EEE;
 }
 
 .item-table {

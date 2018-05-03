@@ -15,6 +15,7 @@
           _id
           name
         }
+        popular
       }
       quantity
     },
@@ -36,9 +37,8 @@
             _id
             name
           }
+          popular
         }
-        dateStart
-        dateEnd
       }
       quantity
     }

@@ -14,9 +14,7 @@ const MenuSchema = mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "Product",
     required: true
-  }],
-  dateStart: Date,
-  dateEnd: Date
+  }]
 });
 
 module.exports = mongoose.model("Menu", MenuSchema);

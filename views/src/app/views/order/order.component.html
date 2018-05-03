@@ -1,5 +1,5 @@
 <mat-card>
-  <mat-grid-list cols="2" rowHeight="300">
+  <mat-grid-list cols="2">
     <mat-grid-tile [colspan]="1">
       <mat-table #table [dataSource]="dataSource">
         <ng-container matColumnDef="quantity">
@@ -14,12 +14,12 @@
 
         <ng-container matColumnDef="unitPrice">
           <mat-header-cell *matHeaderCellDef>Prix à l'unité</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{ element.menu ? element.menu.price : element.product.price }}</mat-cell>
+          <mat-cell *matCellDef="let element">{{ element.menu ? displayPrice(element.menu.price) : displayPrice(element.product.price) }}€</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="totalPrice">
-          <mat-header-cell *matHeaderCellDef>Prix total</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{ (element.menu ? element.menu.price : element.product.price) * element.quantity }}</mat-cell>
+          <mat-header-cell *matHeaderCellDef>Prix total par produit</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ displayPrice((element.menu ? element.menu.price : element.product.price) * element.quantity) }}€</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="action">
@@ -37,9 +37,20 @@
       </mat-table>
     </mat-grid-tile>
 
-    <mat-grid-tile [colspan]="1">
-      <button (click)="runOrder()" mat-button color="primary">Finaliser la commande</button>
-      <button (click)="cancelOrder()" mat-flat-button color="warn">Annuler la commande</button>
+    <mat-grid-tile class="side-actions" [colspan]="1">
+      <table>
+        <tr>
+          <td colspan="2">{{ displayPrice(total) }}€</td>
+        </tr>
+        <tr>
+          <td>
+            <button (click)="runOrder()" mat-button color="primary">Finaliser la commande</button>
+          </td>
+          <td>
+            <button (click)="cancelOrder()" mat-flat-button color="warn">Annuler la commande</button>
+          </td>
+        </tr>
+      </table>
     </mat-grid-tile>
   </mat-grid-list>
 </mat-card>

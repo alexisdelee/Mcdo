@@ -7,7 +7,5 @@ export class Menu {
   price: number;
   quantity: number;
   products: Product[];
-  dateStart: Date;
-  dateEnd: Date;
 
 }

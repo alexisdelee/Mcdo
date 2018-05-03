@@ -118,4 +118,8 @@ export class AdminComponent implements OnInit, OnDestroy {
     return products.reduce((total: number, item: OrderProduct) => total + item.product.price * item.quantity, 0);
   }
 
+  displayPrice(x): String {
+    return Number.parseFloat(x).toFixed(2);
+  }
+
 }

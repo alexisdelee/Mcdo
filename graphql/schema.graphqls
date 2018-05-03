@@ -37,8 +37,6 @@ type Menu {
   name: String!
   price: Float!
   products: [Product!]!
-  dateStart: String
-  dateEnd: String
   attribute: any!
 }
 

@@ -12,6 +12,7 @@
         groups {
           name
         }
+        popular
       }
       quantity
     },
@@ -29,9 +30,8 @@
           groups {
             name
           }
+          popular
         }
-        dateStart
-        dateEnd
       }
       quantity
     }

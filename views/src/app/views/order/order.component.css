@@ -10,3 +10,13 @@ mat-table {
 mat-grid-tile:first-child {
   border-right: 2px dashed #FFF;
 }
+
+mat-grid-tile.side-actions tr:first-child {
+  text-align: center;
+}
+
+mat-grid-tile.side-actions tr:first-child td {
+  padding: 30px 0;
+  font-size: 35px;
+  color: #424242;
+}

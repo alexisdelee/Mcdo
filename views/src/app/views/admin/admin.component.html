@@ -66,16 +66,16 @@
                       <tbody>
                         <tr *ngFor="let product of orderMenu.menu.products">
                           <td class="theme-product"><a [routerLink]="'/products/' + product._id">{{ product.name }}</a></td>
-                          <td class="theme-product-price">{{ product.price + "€" }}</td>
+                          <td class="theme-product-price">{{ displayPrice(product.price) }}€</td>
                         </tr>
                       </tbody>
                     </table>
-                    <td class="theme-product-price-unity">{{ orderMenu.menu.price + "€" }}</td>
+                    <td class="theme-product-price-unity">{{ displayPrice(orderMenu.menu.price) }}€</td>
                     <td class="theme-quantity">{{ orderMenu.quantity }}</td>
-                    <td class="theme-product-price-total">{{ (orderMenu.menu.price * orderMenu.quantity) + "€" }}</td>
+                    <td class="theme-product-price-total">{{ displayPrice(orderMenu.menu.price * orderMenu.quantity) }}€</td>
                   </tr>
                   <tr>
-                    <th colspan="4" class="theme-price-total">{{ getPriceForAllMenus(element.menus) + "€" }}</th>
+                    <th colspan="4" class="theme-price-total">{{ displayPrice(getPriceForAllMenus(element.menus)) }}€</th>
                   </tr>
                 </tbody>
               </table>
@@ -103,12 +103,12 @@
                 <tbody>
                 <tr *ngFor="let orderProduct of element.products">
                   <td class="theme-product"><a [routerLink]="'/products/' + orderProduct.product._id">{{ orderProduct.product.name }}</a></td>
-                  <td class="theme-product-price-unity">{{ orderProduct.product.price + "€" }}</td>
+                  <td class="theme-product-price-unity">{{ displayPrice(orderProduct.product.price) }}€</td>
                   <td class="theme-quantity">{{ orderProduct.quantity }}</td>
-                  <td class="theme-product-price-total">{{ (orderProduct.product.price * orderProduct.quantity) + "€" }}</td>
+                  <td class="theme-product-price-total">{{ displayPrice(orderProduct.product.price * orderProduct.quantity) }}€</td>
                 </tr>
                 <tr>
-                  <th colspan="4" class="theme-price-total">{{ getPriceForAllProducts(element.products) + "€" }}</th>
+                  <th colspan="4" class="theme-price-total">{{ displayPrice(getPriceForAllProducts(element.products)) }}€</th>
                 </tr>
                 </tbody>
               </table>
