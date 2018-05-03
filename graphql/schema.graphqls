@@ -10,29 +10,30 @@ type Query {
 }
 
 type Ingredient {
-  _id: ID
+  _id: ID!
   name: String!
   attribute: any!
 }
 
 type Group {
-  _id: ID
+  _id: ID!
   name: String!
   attribute: any!
 }
 
 type Product {
-  _id: ID
+  _id: ID!
   name: String!
   price: Float!
   thumbnail: String
   ingredients: [Ingredient!]!
   groups: [Group!]!
+  popular: Boolean!
   attribute: any!
 }
 
 type Menu {
-  _id: ID
+  _id: ID!
   name: String!
   price: Float!
   products: [Product!]!
@@ -42,19 +43,19 @@ type Menu {
 }
 
 type OrderProduct {
-  _id: ID
+  _id: ID!
   product: Product!
   quantity: Float!
 }
 
 type OrderMenu {
-  _id: ID
+  _id: ID!
   menu: Menu!
   quantity: Float!
 }
 
 type Order {
-  _id: ID
+  _id: ID!
   price: Float!
   status: String!
   products: [OrderProduct!]!

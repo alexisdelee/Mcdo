@@ -3,15 +3,7 @@
     name
     price
     products {
-      name
-      price
-      thumbnail
-      ingredients {
-        name
-      }
-      groups {
-        name
-      }
+      _id
     }
     dateStart
     dateEnd

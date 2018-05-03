@@ -1,1 +1,1 @@
-{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"mcdo.users"},{"v":2,"unique":true,"key":{"login":1},"name":"login_1","ns":"mcdo.users","background":true}],"uuid":"31708c014b704ebcaedbfc836ba6b291"}
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"mcdo.users"},{"v":2,"unique":true,"key":{"login":1},"name":"login_1","ns":"mcdo.users","background":true}],"uuid":"af727de001c14d398f2b32e72b61593e"}

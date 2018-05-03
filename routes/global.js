@@ -32,7 +32,7 @@ for([ route, crud, subRoute, access, method, endpoint ] of init.route(mapping)) 
       try {
         if(access === "private") {
           request.headers["x-access-token"] = request.headers["x-access-token"] || "";
-          jsonwebtoken.verify(request.headers["x-access-token"], SECRET_TOKEN);
+          // jsonwebtoken.verify(request.headers["x-access-token"], SECRET_TOKEN);
         }
 
         let controller = require("../controllers/" + route);

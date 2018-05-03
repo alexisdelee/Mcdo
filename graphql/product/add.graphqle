@@ -5,11 +5,10 @@
     thumbnail
     ingredients {
       _id
-      name
     }
     groups {
       _id
-      name
     }
+    popular
   }
 }

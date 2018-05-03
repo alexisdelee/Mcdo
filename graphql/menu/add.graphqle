@@ -4,17 +4,6 @@
     price
     products {
       _id
-      name
-      price
-      thumbnail
-      ingredients {
-        _id
-        name
-      }
-      groups {
-        _id
-        name
-      }
     }
     dateStart
     dateEnd

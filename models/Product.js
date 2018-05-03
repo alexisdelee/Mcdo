@@ -23,7 +23,11 @@ const ProductSchema = mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "Group",
     required: true
-  }]
+  }],
+  popular: {
+    type: Boolean,
+    required: true
+  }
 });
 
 module.exports = mongoose.model("Product", ProductSchema);

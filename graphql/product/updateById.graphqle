@@ -4,10 +4,10 @@
     price
     thumbnail
     ingredients {
-      name
+      _id
     }
     groups {
-      name
+      _id
     }
   }
 }
