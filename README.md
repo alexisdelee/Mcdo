@@ -69,7 +69,7 @@
 | private | GET     | /orders                    | Obtenir toutes les commandes.                    |
 | public  | POST    | /orders/new                | Ajouter une nouvelle commande.                   |
 | private | PUT     | /orders/:id                | Modifier une commande.                           |
-| public  | PUT     | /orders/:id/attribute      | Modifier un attribut spécifique d'une commande.  |
+| public  | PUT     | /orders/:id/:attribute     | Modifier un attribut spécifique d'une commande.  |
 
 Les queries ``limit`` et ``offset`` sont étendues sur les méthodes __getAll__ et __getProducts__.  
 
