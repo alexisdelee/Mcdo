@@ -1,0 +1,328 @@
+<h1 id="sommaire">Sommaire</h1>
+<ul>
+<li><a href="#api">API</a><br /></li>
+<li><a href="#models">Models</a><br /></li>
+<li><a href="#environnement">Environnement</a><br /></li>
+<li><a href="#installation">Installation</a></li>
+</ul>
+<h2 id="api">API</h2>
+<h3 id="routes-pour-la-gestion-des-ingrédients">Routes pour la gestion des ingrédients :</h3>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Accès</th>
+<th align="center">Méthode</th>
+<th align="center">Route</th>
+<th align="center">Explication</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">public</td>
+<td align="center">GET</td>
+<td align="center">/ingredients</td>
+<td align="center">Obtenir tous les ingrédients.</td>
+</tr>
+<tr class="even">
+<td align="center">public</td>
+<td align="center">GET</td>
+<td align="center">/ingredients/:id</td>
+<td align="center">Obtenir un ingredient.</td>
+</tr>
+<tr class="odd">
+<td align="center">private</td>
+<td align="center">POST</td>
+<td align="center">/ingredients/new</td>
+<td align="center">Ajouter un nouvel ingrédient.</td>
+</tr>
+<tr class="even">
+<td align="center">private</td>
+<td align="center">PUT</td>
+<td align="center">/ingredients/:id</td>
+<td align="center">Modifier un ingrédient.</td>
+</tr>
+<tr class="odd">
+<td align="center">private</td>
+<td align="center">PUT</td>
+<td align="center">/ingredients/:id/:attribute</td>
+<td align="center">Modifier un attribut spécifique d'un ingrédient.</td>
+</tr>
+<tr class="even">
+<td align="center">private</td>
+<td align="center">DELETE</td>
+<td align="center">/ingredients/:id</td>
+<td align="center">Supprimer un ingrédient.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="routes-pour-la-gestion-des-produits">Routes pour la gestion des produits :</h3>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Accès</th>
+<th align="center">Méthode</th>
+<th align="center">Route</th>
+<th align="center">Explication</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">public</td>
+<td align="center">GET</td>
+<td align="center">/products</td>
+<td align="center">Obtenir tous les produits.</td>
+</tr>
+<tr class="even">
+<td align="center">public</td>
+<td align="center">GET</td>
+<td align="center">/products/:id</td>
+<td align="center">Obtenir un produit.</td>
+</tr>
+<tr class="odd">
+<td align="center">public</td>
+<td align="center">GET</td>
+<td align="center">/products/populars</td>
+<td align="center">Obtenir tous les produits populaires (mise en avant).</td>
+</tr>
+<tr class="even">
+<td align="center">public</td>
+<td align="center">GET</td>
+<td align="center">/products/populars/:id</td>
+<td align="center">Obtenir un produit populaire.</td>
+</tr>
+<tr class="odd">
+<td align="center">private</td>
+<td align="center">POST</td>
+<td align="center">/products/new</td>
+<td align="center">Ajouter un nouveau produit.</td>
+</tr>
+<tr class="even">
+<td align="center">private</td>
+<td align="center">PUT</td>
+<td align="center">/products/:id</td>
+<td align="center">Modifier un produit.</td>
+</tr>
+<tr class="odd">
+<td align="center">private</td>
+<td align="center">PUT</td>
+<td align="center">/products/:id/:attribute</td>
+<td align="center">Modifier un attribut spécifique d'un produit.</td>
+</tr>
+<tr class="even">
+<td align="center">private</td>
+<td align="center">DELETE</td>
+<td align="center">/products/:id</td>
+<td align="center">Supprimer un produit.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="routes-pour-la-gestion-des-groupes">Routes pour la gestion des groupes :</h3>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Accès</th>
+<th align="center">Méthode</th>
+<th align="center">Route</th>
+<th align="center">Explication</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">public</td>
+<td align="center">GET</td>
+<td align="center">/groups</td>
+<td align="center">Obtenir tous les groupes.</td>
+</tr>
+<tr class="even">
+<td align="center">public</td>
+<td align="center">GET</td>
+<td align="center">/groups/:id</td>
+<td align="center">Obtenir un groupe.</td>
+</tr>
+<tr class="odd">
+<td align="center">public</td>
+<td align="center">GET</td>
+<td align="center">/groups/products</td>
+<td align="center">Obtenir tous les produits en relation à leurs groupes.</td>
+</tr>
+<tr class="even">
+<td align="center">public</td>
+<td align="center">GET</td>
+<td align="center">/groups/products/:id</td>
+<td align="center">Obtenir tous les produits en relation à ce groupe.</td>
+</tr>
+<tr class="odd">
+<td align="center">private</td>
+<td align="center">POST</td>
+<td align="center">/groups/new</td>
+<td align="center">Ajouter un nouveau groupe.</td>
+</tr>
+<tr class="even">
+<td align="center">private</td>
+<td align="center">PUT</td>
+<td align="center">/groups/:id</td>
+<td align="center">Modifier un groupe.</td>
+</tr>
+<tr class="odd">
+<td align="center">private</td>
+<td align="center">PUT</td>
+<td align="center">/groups/:id/:attribute</td>
+<td align="center">Modifier un attribut spécifique d'un groupe.</td>
+</tr>
+<tr class="even">
+<td align="center">private</td>
+<td align="center">DELETE</td>
+<td align="center">/groups/:id</td>
+<td align="center">Supprimer un groupe.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="routes-pour-la-gestion-des-menus">Routes pour la gestion des menus</h3>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Accès</th>
+<th align="center">Méthode</th>
+<th align="center">Route</th>
+<th align="center">Explication</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">public</td>
+<td align="center">GET</td>
+<td align="center">/menus</td>
+<td align="center">Obtenir tous les menus.</td>
+</tr>
+<tr class="even">
+<td align="center">public</td>
+<td align="center">GET</td>
+<td align="center">/menus/:id</td>
+<td align="center">Obtenir un menu.</td>
+</tr>
+<tr class="odd">
+<td align="center">private</td>
+<td align="center">POST</td>
+<td align="center">/menus/new</td>
+<td align="center">Ajouter un nouveau menu.</td>
+</tr>
+<tr class="even">
+<td align="center">private</td>
+<td align="center">PUT</td>
+<td align="center">/menus/:id</td>
+<td align="center">Modifier un menu.</td>
+</tr>
+<tr class="odd">
+<td align="center">private</td>
+<td align="center">PUT</td>
+<td align="center">/menus/:id/:attribute</td>
+<td align="center">Modifier un attribut spécifique d'un menu.</td>
+</tr>
+<tr class="even">
+<td align="center">private</td>
+<td align="center">DELETE</td>
+<td align="center">/menus/:id</td>
+<td align="center">Supprimer un menu.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="routes-pour-la-gestion-des-utilisateurs">Routes pour la gestion des utilisateurs</h3>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Accès</th>
+<th align="center">Méthode</th>
+<th align="center">Route</th>
+<th align="center">Explication</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">public</td>
+<td align="center">POST</td>
+<td align="center">/users/token/authorization</td>
+<td align="center">Obtenir un token.</td>
+</tr>
+<tr class="even">
+<td align="center">public</td>
+<td align="center">POST</td>
+<td align="center">/users/token/verify</td>
+<td align="center">Vérifier la validité d'un token.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="routes-pour-la-gestion-des-commandes">Routes pour la gestion des commandes</h3>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Accès</th>
+<th align="center">Méthode</th>
+<th align="center">Route</th>
+<th align="center">Explication</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">private</td>
+<td align="center">GET</td>
+<td align="center">/orders</td>
+<td align="center">Obtenir toutes les commandes.</td>
+</tr>
+<tr class="even">
+<td align="center">public</td>
+<td align="center">POST</td>
+<td align="center">/orders/new</td>
+<td align="center">Ajouter une nouvelle commande.</td>
+</tr>
+<tr class="odd">
+<td align="center">private</td>
+<td align="center">PUT</td>
+<td align="center">/orders/:id</td>
+<td align="center">Modifier une commande.</td>
+</tr>
+<tr class="even">
+<td align="center">public</td>
+<td align="center">PUT</td>
+<td align="center">/orders/:id/:attribute</td>
+<td align="center">Modifier un attribut spécifique d'une commande.</td>
+</tr>
+</tbody>
+</table>
+<p>Les queries <code>limit</code> et <code>offset</code> sont étendues sur les méthodes <strong>getAll</strong> et <strong>getProducts</strong>.</p>
+<pre class="shell"><code>/ingredients
+/products
+/products/populars
+/groups
+/groups/products
+/menus
+/orders</code></pre>
+<h2 id="models">Models</h2>
+<p>Les models sont les suivants :<br /> - <a href="models/Ingredient.js">Ingredient</a><br /> - <a href="models/Product.js">Product</a><br /> - <a href="models/Group.js">Group</a><br /> - <a href="models/Menu.js">Menu</a><br /> - <a href="models/User.js">User</a><br /> - <a href="models/Order.js">Order</a><br /> - <a href="models/OrderProduct.js">Order Product</a><br /> - <a href="models/OrderMenu.js">Order Menu</a></p>
+<h2 id="environnement">Environnement</h2>
+<h3 id="mongodb">MongoDB</h3>
+<p>Port par défaut : 27017 (webconfig.json#8:5)<br />Localisation : webconfig.json#10:5</p>
+<pre class="shell"><code># launch server
+npm run tools launch:database
+# or
+npm run tools database:launch</code></pre>
+<pre class="shell"><code># export
+npm run tools database:export
+  
+# import
+npm run tools database:import</code></pre>
+<h3 id="api-node.js">API Node.js</h3>
+<p>Port par défaut : 3000 (webconfig.json#4:5 / views/src/app/views/Globals.ts#10:5)</p>
+<pre class="shell"><code>npm run tools launch:server</code></pre>
+<h3 id="angular-5">Angular 5</h3>
+<p>La vue sera faite en utilisant Angular 5 et Angular Material.<br />Port par défaut : 5000 (webconfig.json#13:5)<br />Localisation : webconfig.json#14:5</p>
+<pre class="shell"><code># lancer le serveur interne
+npm run tools launch:client</code></pre>
+<h2 id="installation">Installation</h2>
+<pre class="shell"><code>npm run tools launch:dependencies
+
+npm run tools database:launch
+npm run tools database:import
+
+npm run tools launch:server
+
+npm run tools launch:client</code></pre>
